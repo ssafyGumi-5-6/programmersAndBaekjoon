@@ -1,7 +1,5 @@
 # Programmers Study
 
-&nbsp;
-
 **✔ 2022.09.02**
 |문제|검색|
 |-|-|
