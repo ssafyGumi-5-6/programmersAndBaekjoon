@@ -8,7 +8,6 @@ class pg42576 {
 
         for(int i = 0; i <Math.min(participant.length, completion.length); i++){
             if(!participant[i].equals(completion[i])){
-                System.out.println(i);
                 if(participant.length > completion.length){
                     answer = participant[i];
                 }else{
