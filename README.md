@@ -20,11 +20,11 @@
 
 **✏ B형 샘플**
 
-숫자 야구 게임: https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV4su3xKXFUDFAUf&categoryId=AV4su3xKXFUDFAUf&categoryType=CODE&problemTitle=1768&orderBy=FIRST_REG_DATETIME&selectCodeLang=ALL&select-1=&pageSize=10&pageIndex=1
+[숫자 야구 게임](https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV4su3xKXFUDFAUf&categoryId=AV4su3xKXFUDFAUf&categoryType=CODE&problemTitle=1768&orderBy=FIRST_REG_DATETIME&selectCodeLang=ALL&select-1=&pageSize=10&pageIndex=1)
 
-성적 데이터베이스: https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AYH10-ZKp1IDFATO&categoryId=AYH10-ZKp1IDFATO&categoryType=CODE&problemTitle=&orderBy=FIRST_REG_DATETIME&selectCodeLang=ALL&select-1=&pageSize=10&pageIndex=1
+[성적 데이터베이스](https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AYH10-ZKp1IDFATO&categoryId=AYH10-ZKp1IDFATO&categoryType=CODE&problemTitle=&orderBy=FIRST_REG_DATETIME&selectCodeLang=ALL&select-1=&pageSize=10&pageIndex=1)
 
-블록 부품 맞추기: https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV4szU-qXKYDFAUf
+[블록 부품 맞추기](https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV4szU-qXKYDFAUf)
 
 &nbsp;
 
