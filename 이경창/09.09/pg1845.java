@@ -1,5 +1,6 @@
 import java.util.HashMap;
 
+// 폰켓몬
 class pg1845 {
     public int solution(int[] nums) {
         HashMap<Integer, Integer> map = new HashMap<>();
