@@ -36,13 +36,13 @@
 &nbsp;
 
 
-**✔ 2022.09.17**
+**✔ 2022.09.15**
 |문제|검색|
 |-|-|
-|사라지는 발판|[92345](https://school.programmers.co.kr/learn/courses/30/lessons/92345)|
-|양궁대회|[92342](https://school.programmers.co.kr/learn/courses/30/lessons/92342)|
-|양과 늑대|[92343](https://school.programmers.co.kr/learn/courses/30/lessons/92343)|
-|신고 결과 받기|[92334](https://school.programmers.co.kr/learn/courses/30/lessons/92334)|
+|사라지는 발판|https://school.programmers.co.kr/learn/courses/30/lessons/92345|
+|양궁대회|https://school.programmers.co.kr/learn/courses/30/lessons/92342|
+|양과 늑대|https://school.programmers.co.kr/learn/courses/30/lessons/92343|
+|신고 결과 받기|https://school.programmers.co.kr/learn/courses/30/lessons/92334|
 
 
 &nbsp;
