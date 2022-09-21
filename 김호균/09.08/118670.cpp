@@ -5,76 +5,77 @@
 
 using namespace std;
 
-vector<vector<int>> solution(vector<vector<int>> rc, vector<string> operations) {
+vector<vector<int>> solution(vector<vector<int>> rc, vector<string> operations)
+{
     int row_size = rc.size() - 1;
     int col_size = rc[0].size() - 1;
     deque<int> left, right;
     deque<deque<int>> mid;
 
-    for(int i = 0; i <= row_size; i++)
+    for (int i = 0; i <= row_size; i++)
     {
-        left.push_back(rc[i][0]);
-        right.push_back(rc[i][col_size]);
+        left.emplace_back(rc[i][0]);
+        right.emplace_back(rc[i][col_size]);
+
+        deque<int> tmp;
+        for (int j = 1, size = col_size - 1; j <= size; j++)
+        {
+            tmp.emplace_back(rc[i][j]);
+        }
+        mid.emplace_back(tmp);
     }
 
-    for(int i = 0; i <= row_size; i++)
+    for (string s : operations)
     {
-        deque<int> tmp;
-        for(int j = 1, size = col_size - 1; j <= size; j++)
+        if (s == "ShiftRow")
         {
-            tmp.push_back(rc[i][j]);
-        }
-        mid.push_back(tmp);
-    }
-    
-    for(string s : operations)
-    {
-        if(s == "ShiftRow")
-        {
-           mid.push_front(mid.back());
-           mid.pop_back();
-           left.push_front(left.back());
-           left.pop_back();
-           right.push_front(right.back());
-           right.pop_back();
+            mid.emplace_front(mid.back());
+            mid.pop_back();
+            left.emplace_front(left.back());
+            left.pop_back();
+            right.emplace_front(right.back());
+            right.pop_back();
         }
         else
         {
-            if(col_size == 1)
+            if (col_size == 1)
             {
-                left.push_back(right.back());
+                left.emplace_back(right.back());
                 right.pop_back();
-                right.push_front(left.front());
+                right.emplace_front(left.front());
                 left.pop_front();
             }
             else
             {
-                mid.front().push_front(left.front());
+                mid_front.emplace_front(left.front());
                 left.pop_front();
-                right.push_front(mid.front().back());
-                mid.front().pop_back();
-                mid.back().push_back(right.back());
+                right.emplace_front(mid_front.back());
+                mid_front.pop_back();
+                mid_back.emplace_back(right.back());
                 right.pop_back();
-                left.push_back(mid.back().front());
-                mid.back().pop_front();
+                left.emplace_back(mid_back.front());
+                mid_back.pop_front();
             }
         }
     }
 
-    vector<vector<int>> answer(row_size + 1, vector<int>(col_size + 1));
+    vector<vector<int>> answer;
 
-    for(int i = 0; i <= row_size; i++)
+    for (int i = 0; i <= row_size; i++)
     {
-        answer[i][0] = left.front();
+        vector<int> temp;
+        temp.emplace_back(left.front());
         left.pop_front();
-        answer[i][col_size] = right.front();
-        right.pop_front();
 
-        for(int j = 1, size = col_size - 1; j <= size; j++)
+        for (int j = 1, size = col_size - 1; j <= size; j++)
         {
-            answer[i][j] = mid[i].front();
+            temp.emplace_back(mid[i].front());
             mid[i].pop_front();
         }
+
+        temp.emplace_back(right.front());
+        right.pop_front();
+        answer.emplace_back(temp);
     }
 
     return answer;
