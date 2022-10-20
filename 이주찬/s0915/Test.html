@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="test">test</button>
+    <script>
+        const button = document.getElementById('test');
+        document.querySelector('#test');
+        let i = 0;
+        function func(e) {
+            console.log('버튼을 누르면 호출' + i);
+            e.tartget.style.width = '500px';
+            i++;
+        }
+        button.addEventListener('click', func);
+        button.addEventListener('click', (e) => {
+            //button.style.width = '500px';
+        });
+
+        function test() {
+
+        }
+        var testf = function() {
+
+        }
+        var obj = {
+            t1 : "t1",
+            t2 : "t2",
+        };
+        console.log(obj.t2);
+        console.log(obj['t1']);
+        var obj = 3;
+        console.log(obj);
+        let t4 = 1;
+
+    </script>
+</body>
+</html>
