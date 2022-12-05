@@ -1,0 +1,17 @@
+def solution(cards):
+    visit = [False for i in range(len(cards))]
+    card = [i-1 for i in cards]
+    answer = []
+    for i in range(len(cards)):
+        if visit[i] == True: continue
+        visit[i] = True
+        present = card[i]
+        temp = 1
+        while True:
+            if visit[present] == True: break
+            visit[present] = True
+            temp += 1
+            present = card[present]
+        answer.append(temp)
+    answer.sort(key = lambda x: -x)
+    return answer[0] * answer[1] if len(answer) > 1 else 0

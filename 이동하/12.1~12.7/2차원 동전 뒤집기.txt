@@ -1,0 +1,17 @@
+from itertools import product
+
+def solution(beginning, target):
+    r, c = len(beginning), len(beginning[0])
+    r_begin = [[int(not el) for el in row] for row in beginning]
+    answer = 21
+    for i in product((False, True), repeat = r):
+        source = [[r_begin[i][j] if row else beginning[i][j] for j in range(c)] for i, row in enumerate(i)]
+        temp = i.count(True)
+        for j in range(c):
+            if any(source[i][j] != target[i][j] for i in range(r)):
+                for ii in range(r):
+                    source[ii][j] = int(not source[ii][j])
+                temp += 1
+                continue
+        if source == target: answer = min(answer, temp)
+    return -1 if answer == 21 else answer
