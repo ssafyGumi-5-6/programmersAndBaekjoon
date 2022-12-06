@@ -1,3 +1,5 @@
+package pk점_찍기;
+
 class Solution {
     public long solution(int k, int d) {
         long answer = 0;
