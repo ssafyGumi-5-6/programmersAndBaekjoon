@@ -1,4 +1,6 @@
-class Solution2 {
+package pk우박수열_정적분;
+
+class Solution {
 
     double[] dp;
 
