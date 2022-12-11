@@ -1,0 +1,8 @@
+def solution(s):
+    dic = {"(":1, ")":-1}
+    cnt = 0
+    for i in s:
+        cnt += dic[i]
+        if cnt < 0:
+            return False
+    return True if cnt == 0 else False
