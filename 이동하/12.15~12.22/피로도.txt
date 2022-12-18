@@ -1,0 +1,19 @@
+from itertools import permutations
+
+def solution(k, d):
+    # print(list(permutations(d)))
+    answer = []
+    for i in permutations(d):
+        hp = k
+        cnt = 0
+        for j in i:
+            if hp >= j[0]:
+                cnt += 1
+                hp -= j[1]
+            else:
+                answer.append(cnt)
+                break
+        else:
+            answer.append(cnt)
+            break
+    return max(answer)

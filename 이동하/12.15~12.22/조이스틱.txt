@@ -1,0 +1,38 @@
+def solution(name):
+    print(name)
+    answer = 0
+    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    s = [min(26 - alpha.index(i), alpha.index(i)) for i in name]
+    name = "A" + name[1:]
+    distance = [0,0,0,0]
+    for i in range(len(name)):
+        if name[i] != "A":
+            break
+    distance[0] = len(name) - i
+    for i in range(len(name)-1, -1, -1):
+        if name[i] != "A":
+            break
+    distance[1] = i
+    a, b = 0, 0
+    for i in range(len(name) // 2 - 1, -1, -1):
+        if name[i] != "A":
+            a = i
+            break
+    for i in range(len(name) // 2, len(name)):
+        if name[i] != "A":
+            b = len(name) - i
+            break
+    distance[2] = 2*a + b
+    a, b = 0, 0
+    for i in range((len(name)+1) // 2, len(name)):
+        if name[i] != "A":
+            a = len(name) - i
+            break
+    for i in range((len(name)+1) // 2):
+        if name[i] != "A":
+            b = i
+    distance[3] = 2*a + b
+    print(distance,s)
+    return min(distance) + sum(s)
+
+print(solution("ZAAAZZZZZZZ"))

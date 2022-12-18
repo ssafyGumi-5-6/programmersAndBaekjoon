@@ -1,0 +1,17 @@
+def solution(n, times):
+    left = 0
+    right = max(times) * n
+    present = 0
+    while left <= right:
+        mid = (left + right) // 2
+        if sum([mid // i for i in times]) >= n:
+            answer = mid
+            right = mid - 1
+        elif sum([mid // i for i in times]) < n:
+            left = mid + 1
+    a = answer
+    while True:
+        if a == answer:
+            a -= 1
+        else:
+            return a + 1

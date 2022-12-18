@@ -1,0 +1,16 @@
+from math import ceil
+
+def solution(p, s):
+    p = list(map(lambda x: ceil((100-x[0]) / x[1]), zip(p, s)))
+    temp = p[0]
+    answer = []
+    cnt = 1
+    for i in range(1, len(p)):
+        if temp >= p[i]:
+            cnt += 1
+        else:
+            answer.append(cnt)
+            cnt = 1
+            temp = p[i]
+    answer.append(cnt)
+    return answer
