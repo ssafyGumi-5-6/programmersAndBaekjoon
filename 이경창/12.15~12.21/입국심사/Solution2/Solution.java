@@ -2,40 +2,40 @@ package Solution2;
 import java.util.*;
 
 
-// 우선순위 큐
-// 5, 6, 7, 8 시간 초과
-class Node implements Comparable<Node>{
-    long curTime;
-    int waitingTime;
-
-    Node(long curTime, int waitingTime){
-        this.curTime = curTime;
-        this.waitingTime = waitingTime;
-    }
-
-    @Override
-    public int compareTo(Node n){
-        return (int)(this.curTime - n.curTime);
-    }
-}
-
-class Solution {
-    public long solution(int n, int[] times) {
-        long answer = 0;
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-
-        // 다음 심사가능시간, 심사 대기시간
-        // 7, 10 => 7 10 14 20 21
-        for(int i = 0; i < times.length; i++) pq.add(new Node(times[i], times[i]));
-
-        for(int i = 0; i < n; i++){
-            Node curNode = pq.poll();
-            if(i == n - 1) answer = curNode.curTime;
-            else pq.add(new Node(curNode.curTime + curNode.waitingTime, curNode.waitingTime));
-        }
-        return answer;
-    }
-}
+//// 우선순위 큐
+//// 5, 6, 7, 8 시간 초과
+//class Node implements Comparable<Node>{
+//    long curTime;
+//    int waitingTime;
+//
+//    Node(long curTime, int waitingTime){
+//        this.curTime = curTime;
+//        this.waitingTime = waitingTime;
+//    }
+//
+//    @Override
+//    public int compareTo(Node n){
+//        return (int)(this.curTime - n.curTime);
+//    }
+//}
+//
+//class Solution {
+//    public long solution(int n, int[] times) {
+//        long answer = 0;
+//        PriorityQueue<Node> pq = new PriorityQueue<>();
+//
+//        // 다음 심사가능시간, 심사 대기시간
+//        // 7, 10 => 7 10 14 20 21
+//        for(int i = 0; i < times.length; i++) pq.add(new Node(times[i], times[i]));
+//
+//        for(int i = 0; i < n; i++){
+//            Node curNode = pq.poll();
+//            if(i == n - 1) answer = curNode.curTime;
+//            else pq.add(new Node(curNode.curTime + curNode.waitingTime, curNode.waitingTime));
+//        }
+//        return answer;
+//    }
+//}
 
 
 
