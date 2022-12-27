@@ -1,0 +1,29 @@
+import java.util.HashMap;
+
+class Solution {
+    public int solution(int[] topping) {
+    	HashMap<Integer, Integer> one = new HashMap<>();
+    	int one_cnt = 0;
+    	HashMap<Integer, Integer> two = new HashMap<>();
+    	int two_cnt = 0;
+    	for (int i : topping) {
+    		if (one.get(i) == null) one.put(i, 0);
+    		if (two.get(i) == null) {two.put(i, 0); two_cnt++;}
+    		two.put(i, two.get(i) + 1);
+    	}
+    	int answer = 0;
+    	for (int i = 0; i < topping.length; i++) {
+    		if (one.get(topping[i]) == 0) one_cnt++;
+    		one.put(topping[i], one.get(topping[i]) + 1);
+    		two.put(topping[i], two.get(topping[i]) - 1);
+    		if (two.get(topping[i]) == 0) two_cnt--;
+    		if (one_cnt == two_cnt) answer++;
+    	}
+//    	System.out.println(answer);
+    	return answer;
+    }
+//    public static void main(String[] args) {
+//		new Solution().solution(new int [] {1, 2, 1, 3, 1, 4, 1, 2});
+//		new Solution().solution(new int [] {1, 2, 3, 1, 4});
+//	}
+}

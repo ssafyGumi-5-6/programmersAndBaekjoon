@@ -1,0 +1,20 @@
+import heapq
+
+def solution(n, k, enemy):
+    q = []
+    sum_num = 0
+    get_cnt = 0
+    answer = 0
+    for i in enemy:
+        heapq.heappush(q, -i)
+        sum_num += i
+        if sum_num > n and get_cnt < k:
+            get_cnt += 1
+            temp = heapq.heappop(q)
+            sum_num += temp
+        elif sum_num > n and get_cnt >= k:
+            break
+        answer += 1
+        
+    return answer
+    
