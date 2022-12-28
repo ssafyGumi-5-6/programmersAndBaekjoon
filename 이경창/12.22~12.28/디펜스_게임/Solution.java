@@ -1,4 +1,4 @@
-package Solution;
+package 디펜스_게임;
 
 import java.util.*;
 

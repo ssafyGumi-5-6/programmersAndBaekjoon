@@ -1,5 +1,4 @@
 package Solution2;
-import java.util.*;
 
 
 //// 우선순위 큐

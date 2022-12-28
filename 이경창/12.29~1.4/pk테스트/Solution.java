@@ -1,2 +1,4 @@
-package pk테스트;public class Solution2 {
+package pk테스트;
+
+public class Solution {
 }

@@ -43,7 +43,7 @@ public class pg84512 {
 //        for(int i =0;i<5;i++) dfs(s + "AEIOU".charAt(i), len + 1);
 //    }
 //
-//    public int solution(String word){
+//    public int Solution3.Solution(String word){
 //        dfs("",0);
 //        return list.indexOf(word);
 //    }
