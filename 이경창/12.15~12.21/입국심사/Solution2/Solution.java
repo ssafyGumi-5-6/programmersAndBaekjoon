@@ -1,5 +1,4 @@
 package Solution2;
-import java.util.*;
 
 
 //// 우선순위 큐
@@ -20,7 +19,7 @@ import java.util.*;
 //}
 //
 //class Solution {
-//    public long solution(int n, int[] times) {
+//    public long Solution(int n, int[] times) {
 //        long answer = 0;
 //        PriorityQueue<Node> pq = new PriorityQueue<>();
 //
