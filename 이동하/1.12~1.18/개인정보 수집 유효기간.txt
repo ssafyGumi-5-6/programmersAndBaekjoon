@@ -1,0 +1,46 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String today, String[] terms, String[] privacies) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        String [] arr = null;
+        
+        arr = today.split("\\.");
+        int today_year = Integer.parseInt(arr[0]);
+        int today_month = Integer.parseInt(arr[1]);
+        int today_date = Integer.parseInt(arr[2]);
+        
+        HashMap<String, Integer> t = new HashMap<>();
+        
+        for (String s : terms) {
+            arr = s.split(" ");
+            t.put(arr[0], Integer.parseInt(arr[1]));
+        }
+        // System.out.println(t);
+        
+        int idx = 0;
+        for (String s : privacies) {
+            idx++;
+            arr = s.split(" ");
+            String [] present = arr[0].split("\\.");
+            int present_year = Integer.parseInt(present[0]);
+            int present_month = Integer.parseInt(present[1]) + t.get(arr[1]);
+            int present_date = Integer.parseInt(present[2]) - 1;
+            if (present_date == 0) {
+                present_month--;
+                present_date = 28;
+            }
+            present_year += present_month / 12;
+            present_month %= 12;
+            // System.out.println(present_year + " " + present_month + " " + present_date);
+            int today_int = today_year*28*12 + today_month*28 + today_date;
+            int present_int = present_year*28*12 + present_month*28 + present_date;
+            if (today_int > present_int) answer.add(idx);
+        }
+        int [] answer_arr = new int [answer.size()];
+        for (int i = 0; i < answer.size(); i++) {
+            answer_arr[i] = answer.get(i);
+        }
+        return answer_arr;
+    }
+}
