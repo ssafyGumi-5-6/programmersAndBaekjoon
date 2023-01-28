@@ -1,0 +1,61 @@
+import java.util.*;
+
+class Node {
+    int r;
+    int c;
+    Node (int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+class Solution {
+    public int[] solution(String[] maps) {
+        // for (String i : maps) System.out.println(i);
+        int [] [] delta = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int r = maps.length;
+        int c = maps[0].length();
+        int [] [] map = new int [r] [c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                map[i][j] = maps[i].charAt(j) - '0';
+            }
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (map[i][j] == 40) continue;
+                LinkedList<Node> q = new LinkedList<>();
+                q.add(new Node(i, j));
+                int count = map[i][j];
+                map[i][j] = 40;
+                while (q.size() > 0) {
+                    Node present = q.poll();
+                    for (int [] d : delta) {
+                        int next_r = d[0] + present.r;
+                        int next_c = d[1] + present.c;
+                        if (next_r < 0 || next_r >= r || next_c < 0 || next_c >= c) continue;
+                        if (map[next_r][next_c] == 40) continue;
+                        q.add(new Node(next_r, next_c));
+                        count += map[next_r][next_c];
+                        map[next_r][next_c] = 40;
+                    }
+                }
+                list.add(count);
+            }
+        }
+        // System.out.println(list);
+        if (list.size() == 0) return new int [] {-1};
+        else {
+            list.sort((o1, o2) -> {
+                return o1 - o2;
+            });
+            // System.out.println(list);
+            int [] answer = new int [list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                answer[i] = list.get(i);    
+            }
+            return answer;
+        }
+    }
+}

@@ -1,0 +1,47 @@
+import java.util.*;
+
+class Node {
+    int value;
+    int level;
+    Node (int value, int level) {
+        this.value = value;
+        this.level = level;
+    }
+}
+
+class Solution {
+    public int solution(int x, int y, int n) {
+        boolean [] used = new boolean [1000001];
+        LinkedList<Node> q = new LinkedList<>();
+        q.add(new Node(x, 0));
+        boolean flag = false;
+        int answer = 0;
+        while (q.size() > 0) {
+            Node node = q.poll();
+            int temp = node.value;
+            if (temp == y) {
+                flag = true;
+                answer = node.level;
+                break;
+            }
+            if (temp + n <= 1000000 && used[temp + n] == false) {
+                used[temp + n] = true;
+                q.add(new Node(temp + n, node.level + 1));
+            }
+            if (temp * 2 <= 1000000 && used[temp * 2] == false) {
+                used[temp * 2] = true;
+                q.add(new Node(temp * 2, node.level + 1));
+            }
+            if (temp * 3 <= 1000000 && used[temp * 3] == false) {
+                used[temp * 3] = true;
+                q.add(new Node(temp * 3, node.level + 1));
+            }
+        }
+        if (flag == true) {
+            return answer;
+        }
+        else {
+            return -1;
+        }
+    }
+}
