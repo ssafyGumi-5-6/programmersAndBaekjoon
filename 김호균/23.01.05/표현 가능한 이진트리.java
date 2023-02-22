@@ -1,14 +1,3 @@
-# [L3] **표현 가능한 이진트리 - 150367**
-
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/150367#)
-
-### 회고
-
-런타임 에러 원인을 너무 늦게 찾았다. 좀 더 꼼꼼히 코드를 작성했으면 런타임 에러도 안 만났을 건데…, 추가로 포화이진트리 특성을 이용해 푸는 문제를 경험해보니 자료구조 기초가 모자라다는 것을 느꼈다.
-
-### 코드
-
-```java
 class Solution {
     
     public int[] solution(long[] numbers) {
@@ -61,4 +50,3 @@ class Solution {
         return 1;
     }
 }
-```
