@@ -1,14 +1,3 @@
-# [L2] **무인도 여행 - 154540**
-
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/154540)
-
-### 회고
-
-무지 쉬워 무지도 풀 수 있는 완전탐색 문제
-
-### 코드
-
-```java
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -79,4 +68,3 @@ class Solution {
         return totalFood;
     }
 }
-```
