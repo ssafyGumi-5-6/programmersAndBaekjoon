@@ -1,14 +1,3 @@
-# [L2] **숫자 변환하기 - 154538**
-
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/154538)
-
-### 회고
-
-1000000도 포함해서 확인을 했어야하는데 그걸 놓쳐 찾는데 오래걸렸다.
-
-### 코드
-
-```java
 import java.util.Queue;
 import java.util.ArrayDeque;
 import java.util.Set;
@@ -52,4 +41,3 @@ class Solution {
         return answer;
     }
 }
-```
