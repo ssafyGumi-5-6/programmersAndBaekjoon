@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String[] cards1, String[] cards2, String[] goal) {
+        boolean [] used = new boolean [goal.length]; 
+        HashMap<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < goal.length; i++) {
+            map.put(goal[i],i);
+        }
+        int idx;
+        idx = -1;
+        for (int i = 0; i < cards1.length; i++) {
+            if (map.get(cards1[i]) == null) break;
+            if (idx > map.get(cards1[i])) return "No";
+            idx = map.get(cards1[i]);
+            used[map.get(cards1[i])] = true;
+        }
+        idx = -1;
+        for (int i = 0; i < cards2.length; i++) {
+            if (map.get(cards2[i]) == null) break;
+            if (idx > map.get(cards2[i])) return "No";
+            idx = map.get(cards2[i]);
+            used[map.get(cards2[i])] = true;
+        }
+        for (int i = 0; i < goal.length; i++) {
+            if (used[i] == false) return "No";
+        }
+        return "Yes";
+    }
+}
