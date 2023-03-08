@@ -1,0 +1,13 @@
+class Solution {
+    public int solution(int n, int m, int[] section) {
+        int idx = 0;
+        int answer = 0;
+        for (int i : section) {
+            if (idx < i) {
+                answer++;
+                idx = i + m - 1;
+            }
+        }
+        return answer;
+    }
+}
