@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String[] board) {
+        char [] [] boards = {board[0].toCharArray(), board[1].toCharArray(), board[2].toCharArray()};
+        int [] [] [] completeArray = {{{0,0}, {0,1}, {0,2}}, {{1,0}, {1,1}, {1,2}}, { {2,0},{2,1},{2,2}},{{0,0},{1,0},{2,0}},{{0,1},{1,1},{2,1}},{{0,2},{1,2},{2,2}},{{0,0},{1,1},{2,2}},{{2,0},{1,1},{0,2}}};
+        int completeO = 0;
+        int completeX = 0;
+        int cntO = 0;
+        int cntX = 0;
+        int [] [] map = new int [3] [3];
+        for (int [] [] array : completeArray) {
+            if (boards[array[0][0]][array[0][1]] == 'O' &&
+                boards[array[1][0]][array[1][1]] == 'O' &&
+                boards[array[2][0]][array[2][1]] == 'O') {
+                completeO++;
+            }
+            if (boards[array[0][0]][array[0][1]] == 'X' &&
+                boards[array[1][0]][array[1][1]] == 'X' &&
+                boards[array[2][0]][array[2][1]] == 'X') {
+                completeX++;
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(boards[i][j] == 'O') cntO++;
+                else if(boards[i][j] == 'X') cntX++;
+            }
+        }
+        System.out.println(completeO + " " + completeX);
+        System.out.println(cntO + " " + cntX);
+        if (cntO < cntX || cntO - cntX > 1) {
+            // System.out.println("잘못된 차례에요");
+            return 0;
+        }
+        if (completeO > 0 && completeX > 0) {
+            return 0;
+        }
+        if (completeO == 0 && completeX == 0 && !(0 <= cntO - cntX && cntO - cntX <= 1)) {
+            return 0;
+        }
+        if (completeO == 0 && completeX == 1 && cntO - cntX != 0) {
+            return 0;
+        }
+        if (completeO == 1 && completeX == 0 && cntO - cntX != 1) {
+            return 0;
+        }
+        // if (!((completeO == 0 && completeX == 0 && (0 < cntO - cntX && cntO - cntX <= 1)) || (completeO == 0 && completeX == 1 && cntO - cntX == 0) || (completeO == 1 && completeX == 0 && cntO - cntX == 1))) {
+        //     // System.out.println("이미 완성된 빙고가 있어요");
+        //     return 0;
+        // }
+        return 1;
+    }
+}

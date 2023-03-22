@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public long solution(int[] sequence) {
+        int sequence_length = sequence.length;
+        long [] s1 = new long[sequence_length];
+        long [] s2 = new long[sequence_length];
+        s1[0] = sequence[0]; s2[0] = -sequence[0];
+        long t = -1;
+        for (int i = 1; i < sequence_length; i++) {
+            s1[i] = sequence[i] * t + s1[i-1];
+            s2[i] = -sequence[i] * t + s2[i-1];
+            t *= -1;
+        }
+        long [] s1_max = new long [sequence_length];
+        s1_max[0] = s1[0];
+        long s1_min = Math.min(0, s1[0]);
+        long [] s2_max = new long [sequence_length];
+        s2_max[0] = s2[0];
+        long s2_min = Math.min(0, s2[0]);
+        long answer = Math.max(s1[0], s2[0]);
+        // System.out.println(answer);
+        for (int i = 1; i < sequence_length; i++) {
+            s1_max[i] = s1[i] - s1_min;
+            s1_min = Math.min(s1_min, s1[i]);
+            s2_max[i] = s2[i] - s2_min;
+            s2_min = Math.min(s2_min, s2[i]);
+            answer = Math.max(answer, s1_max[i]);
+            answer = Math.max(answer, s2_max[i]);
+            // System.out.println(answer);
+        }
+        // System.out.println(Arrays.toString(s1));
+        // System.out.println(Arrays.toString(s1_max));
+        // System.out.println();
+        // System.out.println(Arrays.toString(s2));
+        // System.out.println(Arrays.toString(s2_max));
+        return answer;
+    }
+}
