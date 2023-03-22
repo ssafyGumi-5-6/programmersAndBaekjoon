@@ -1,3 +1,5 @@
+package y2023.s0301;
+
 public class Solution_Programers_카드뭉치 {
     public static void main(String[] args) {
 
