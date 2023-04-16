@@ -1,0 +1,50 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[][] plans) {
+        int [] [] new_plan = new int [plans.length] [3];
+        HashMap<Integer, String> dic = new HashMap<>();
+        int idx = 0;
+        
+        
+        PriorityQueue<int []> pq = new PriorityQueue<>((o1, o2) -> {
+            return o1[1] - o2[1];
+        });
+            
+        for (int i = 0; i < plans.length; i++) {
+            new_plan[i][0] = idx;
+            dic.put(idx, plans[i][0]);
+            String [] temp = plans[i][1].split(":");
+            new_plan[i][1] = Integer.parseInt(temp[0]) * 60 + Integer.parseInt(temp[1]);
+            new_plan[i][2] = Integer.parseInt(plans[i][2]);
+            pq.add(new_plan[i]);
+            idx++;
+        }
+        
+        String [] answer = new String [plans.length];
+        int answer_idx = 0;
+        Stack<int []> stack = new Stack<>();
+        
+        while (answer_idx <= plans.length - 1) {
+            int [] temp = pq.poll();
+            if (pq.size() <= 0 || temp[1] + temp[2] <= pq.peek()[1]) {
+                answer[answer_idx++] = dic.get(temp[0]);
+                int present_time = temp[1] + temp[2];
+                while(stack.size() > 0) {
+                    if (pq.size() <= 0 || present_time + stack.peek()[2] <= pq.peek()[1]) {
+                        present_time += stack.peek()[2];
+                        answer[answer_idx++] = dic.get(stack.pop()[0]);
+                    } else {
+                        stack.peek()[2] -= pq.peek()[1] - present_time;
+                        break;
+                    }
+                }
+            } else {
+                temp[2] -= pq.peek()[1] - temp[1];
+                stack.push(temp);
+            }
+        }
+        
+        return answer;
+    }
+}
