@@ -1,4 +1,4 @@
-class Solution {
+class Solution3 {
     public int[] solution(int[] sequence, int k) {
 
         int startIdx = 0;
