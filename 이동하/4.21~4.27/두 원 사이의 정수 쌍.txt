@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Solution {
+    public long solution(int r1, int r2) {
+        int [] arrA = new int [r2 + 1];
+        int [] arrB = new int [r2 + 1];
+        arrA[0] = r1;
+        arrB[0] = r2;
+        // int r3 = 1000000;
+        // System.out.println((long)r3 * r3);
+        for (int i = 1; i < r1; i++) {
+            int t = arrA[i - 1];
+            while (true) {
+                if ((long)r1 * r1 > (long)i * i + (long)(t - 1) * (t - 1)) {
+                    arrA[i] = t;
+                    break;
+                }
+                t--;
+            }
+        }
+        // System.out.println(Arrays.toString(arrA));
+        for (int i = 1; i < r2; i++) {
+            int t = arrB[i - 1];
+            while (true) {
+                if ((long)r2 * r2 >= (long)i * i + (long)(t - 1) * (t - 1)) {
+                    arrB[i] = t;
+                    break;
+                }
+                t--;
+            }
+        }
+        // System.out.println(Arrays.toString(arrB));
+        long answer = 0;
+        for (int i = 1; i < r1; i++) {
+            answer += arrB[i] - arrA[i];
+        }
+        for (int i = r1; i < r2; i++) {
+            answer += arrB[i] - 1;
+        }
+        answer += r2 - r1 + 1;
+        answer *= 4;
+        return answer;
+    }
+}
