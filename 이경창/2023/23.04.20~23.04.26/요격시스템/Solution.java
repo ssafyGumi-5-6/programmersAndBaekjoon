@@ -24,7 +24,7 @@ public class Solution {
                 beforeArriveData = inTarget[1];
             }
         }
-        
+
         return answer;
     }
 }
