@@ -1,0 +1,47 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        int [] parent = new int [N];
+        for (int i = 0; i < N; i++) parent[i] = i;
+        int M = Integer.parseInt(br.readLine());
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < N; j++) {
+                if (Integer.parseInt(st.nextToken()) == 1) {
+                    int a = parenting(i, parent);
+                    int b = parenting(j, parent);
+                    if (a < b) {
+                        parent[b] = a;
+                    } else if (a > b) {
+                        parent[a] = b;
+                    }
+                }
+            }
+        }
+        st = new StringTokenizer(br.readLine(), " ");
+        int start = Integer.parseInt(st.nextToken()) - 1;
+        for (int i = 1; i < M; i++) {
+            int next = Integer.parseInt(st.nextToken()) - 1;
+            if (parenting(start, parent) != parenting(next, parent)) {
+                System.out.println("NO");
+                return;
+            }
+            start = next;
+        }
+        System.out.println("YES");
+    }
+    static int parenting(int x, int[] parent) {
+        if (x == parent[x]) {
+            return x;
+        } else {
+            return parenting(parent[x], parent);
+        }
+    }
+}
