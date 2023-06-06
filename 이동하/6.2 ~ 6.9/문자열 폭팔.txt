@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // 표준 입출력을 위한 변수를 선언해요
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // 입력을 받아요
+        String sentence = br.readLine();
+        String bomb = br.readLine();
+
+        // 스택을 만들어서 글자를 하나씩 쌓아볼게요
+        Stack<Character> stack = new Stack<>();
+
+        int index = 0;
+        int bomb_length = bomb.length();
+
+        Loop1:
+        for (int i = 0; i < sentence.length(); i++) {
+            stack.add(sentence.charAt(i));
+            int stack_size = stack.size();
+            if (stack_size < bomb_length) continue;
+            for (int j = 0; j < bomb_length; j++) {
+//                System.out.println(stack.get(stack_size - bomb_length + j) + " " + bomb.charAt(j));
+                if (stack.get(stack_size - bomb_length + j) != bomb.charAt(j)) continue Loop1;
+            }
+            for (int j = 0; j < bomb_length; j++) {
+                stack.pop();
+            }
+//            System.out.println("**" + stack);
+//            System.out.println();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : stack) sb.append(c);
+        if (sb.length() == 0) System.out.println("FRULA");
+        else System.out.println(sb.toString());
+    }
+}

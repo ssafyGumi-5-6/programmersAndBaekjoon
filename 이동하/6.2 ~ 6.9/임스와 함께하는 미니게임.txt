@@ -1,0 +1,33 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // 표준 입출력을 위한 변수를 선언해요
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        // 게임 종류에 따른 사람 수를 정리해요
+        HashMap<Character, Integer> people_num = new HashMap<>();
+        people_num.put('Y', 2);
+        people_num.put('F', 3);
+        people_num.put('O', 4);
+
+        // 입력을 받아요
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        char kind = st.nextToken().charAt(0);
+
+        // 셋 컬렉션에 도전자를 입력 받아요
+        HashSet<String> challenger = new HashSet<>();
+        for (int i = 0; i < N; i++) challenger.add(br.readLine());
+
+        // 정답을 출력해요
+        System.out.println(challenger.size() / (people_num.get(kind) - 1));
+    }
+}

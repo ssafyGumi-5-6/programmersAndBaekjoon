@@ -1,0 +1,48 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+// 답을 적어둬요
+enum Answer {
+    Equilateral,
+    Scalene,
+    Invalid,
+    Isosceles
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // 표준 입출력을 위한 변수를 선언해요
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        // 테스트 케이스를 반복해요
+        while (true) {
+            // 입력을 받아요
+            // 입력을 받으며 최대 값을 구해요
+            PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
+                return o2 - o1;
+            });
+            st = new StringTokenizer(br.readLine(), " ");
+            pq.add(Integer.parseInt(st.nextToken()));
+            pq.add(Integer.parseInt(st.nextToken()));
+            pq.add(Integer.parseInt(st.nextToken()));
+
+            // 입력 결과가 0 0 0이면 멈춰요
+            if (pq.peek() == 0) break;
+
+            // 크기 순으로 변수에 담아요
+            int a = pq.poll();
+            int b = pq.poll();
+            int c = pq.poll();
+
+            // 조건에 따른 답을 출력해요
+            if (a >= b + c) System.out.println(Answer.Invalid);
+            else if (a == b && b == c) System.out.println(Answer.Equilateral);
+            else if (a == b || b == c || c == a) System.out.println(Answer.Isosceles);
+            else System.out.println(Answer.Scalene);
+        }
+    }
+}
