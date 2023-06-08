@@ -1,0 +1,67 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // 입력 받기위한 변수를 선언해요
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        
+        //입력을 받아요
+        st = new StringTokenizer(br.readLine(), " ");
+
+        // 입력 받는 숫자는 10^16이에요
+        long A = Long.parseLong(st.nextToken());
+        long B = Long.parseLong(st.nextToken());
+        
+        // MAX는 B를 2진수로 썼을 때 자릿수로 쓸 수 있는 가장 큰 수로 만들거에요
+        long MAX = 1;
+        // temp는 B의 자릿수를 구하기 위한 도구에요
+        long temp = B;
+
+        // B의 자릿수를 max_digit에 담을게요
+        // MAX의 값도 갱신해줘요
+        int max_digit = 0;
+        while (true) {
+            if (temp == 0) break;
+            max_digit++;
+            temp /= 2;
+            MAX *= 2;
+        }
+
+        // countOne함수를 통해 A-1까지의 1의 갯수를 구해요
+        long by_a = countOne(A-1, max_digit, MAX);
+        long by_b = countOne(B, max_digit, MAX);
+
+        // A~B사이의 1의 갯수는 b까지의 1의 갯수에서 a-1까지의 1의 갯수를 뺀 값이에요
+        System.out.println(by_b - by_a);
+
+    }
+    static long countOne(long T, int max_digit, long MAX) {
+        long answer = 0;
+        long unit_helper = 1;
+        
+        // 10^16은 10^3을 2^10으로 표현할 수 있다고 가정한다면 50자리 정도의 2진수로 나타낼 수 있어요 따라서 반복문은 50번 정도를 돌아요
+        for (int i = 1; i <= max_digit; i++) {
+            // 2진수의 패턴을 이용한 계산이에요
+            // 0 ~ (MAX-1) 까지 총 MAX개의 2진수는 가장 높은 자리수 부터 다음과 같은 패턴을 가져요
+            // 가장 높은 자리 1/2지점에서 0에서 1로 바뀜
+            // 두번 째 높은 자리 1/4 지점에서 0에서 1로 바뀜, 2/4 지점에서 1에서 0으로 바뀜 3/4 지점에서 0에서 1로 바뀜
+            // 이와같은 패턴을 구현하면 답을 구할수 있어요
+            // unit_helper는 0->1 혹은 1->0으로 바뀌는 지점을 의미해요
+            unit_helper *= 2;
+            // MAX개의 숫자를 해당단위로 구분해요
+            long unit = MAX / unit_helper;
+            // 0->1, 1->0으로 바뀌는 2개의 패턴이 있으니 바뀌는 지점이 있는 수에서 /2 를 해서 1인 지점의 1갯수를 세요
+            // T / unit은 구역의 수에요
+            // T / unit / 2 은 그 구역 중 1인 구역의 수에요
+            // T / unit / 2 * unit 은 그 구역의 수에 구역당 1의 갯수를 곱한 수에요
+            answer += T / unit / 2 * unit;
+            // T가 1인 구역에 속하는지 0인 구역에 속하는지 판단한뒤 1인 지점이라면 구역에서 T까지의 갯수를 답에 더해줘요
+            if ((T / unit) % 2 == 1) answer += T % unit + 1;
+        }
+        return answer;
+    }
+}

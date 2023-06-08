@@ -1,0 +1,69 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        int[][] endurance = new int[2][N];
+        boolean[] robot = new boolean[N];
+        st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < N; i++) {
+            endurance[0][i] = Integer.parseInt(st.nextToken());
+        }
+        for (int i = N - 1; i >= 0; i--) {
+            endurance[1][i] = Integer.parseInt(st.nextToken());
+        }
+
+        int answer = 0;
+        while (true) {
+            answer++;
+            // 1단계 실행
+            for (int i = N - 1; i >= 1; i--) {
+                robot[i] = robot[i - 1];
+            }
+            robot[0] = false;
+            robot[N-1] = false;
+            int temp = endurance[0][0];
+            endurance[0][0] = endurance[1][0];
+            for (int i = 0; i < N-1; i++) {
+                endurance[1][i] = endurance[1][i+1];
+            }
+            endurance[1][N-1] = endurance[0][N-1];
+            for (int i = N-1; i >= 2; i--) {
+                endurance[0][i] = endurance[0][i-1];
+            }
+            endurance[0][1] = temp;
+
+            // 2단계 실행
+            for (int i = N - 1; i >= 1; i--) {
+                if (robot[i - 1] == false) continue;
+                if (robot[i] == true) continue;
+                if (endurance[0][i] == 0) continue;
+                robot[i - 1] = false;
+                robot[i] = true;
+                endurance[0][i]--;
+                if (endurance[0][i] == 0) K--;
+            }
+
+            // 3단계 실행
+            if (endurance[0][0] > 0) {
+                robot[0] = true;
+                endurance[0][0]--;
+                if (endurance[0][0] == 0) K--;
+            }
+
+            // 4단계 실행
+            if (K <= 0) {
+                break;
+            }
+        }
+        System.out.println(answer);
+    }
+}
