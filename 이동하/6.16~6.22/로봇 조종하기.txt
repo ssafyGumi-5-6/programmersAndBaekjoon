@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        int [] [] raw_data = new int [N+1] [M+1];
+        for (int i = 1; i <= N; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 1; j <= M; j++) {
+                raw_data[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        int [] [] answer = new int [N+1][M+2];
+        for (int j = 1; j <= M; j++) {
+            answer[1][j] = answer[1][j-1] + raw_data[1][j];
+        }
+
+        for (int i = 2; i <= N; i++) {
+            int [] L = new int [M+2];
+            int [] R = new int [M+2];
+            L[1] = answer[i-1][1] + raw_data[i][1];
+            R[M] = answer[i-1][M] + raw_data[i][M];
+            for (int j = 2; j <= M; j++) {
+                L[j] = Math.max(answer[i-1][j], L[j-1]) + raw_data[i][j];
+            }
+            for (int j = M - 1; j >= 1; j--) {
+                R[j] = Math.max(answer[i-1][j], R[j+1]) + raw_data[i][j];
+            }
+            for (int j = 1; j <= M; j++) {
+                answer[i][j] = Math.max(L[j], R[j]);
+            }
+        }
+
+//        for (int i = 0; i <= N; i++) {
+//            System.out.println(Arrays.toString(answer[i]));
+//        }
+        System.out.println(answer[N][M]);
+    }
+}
