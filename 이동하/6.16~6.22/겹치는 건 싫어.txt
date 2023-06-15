@@ -1,0 +1,48 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        LinkedList<Integer> q = new LinkedList<>();
+        int [] count = new int [100_001];
+        st = new StringTokenizer(br.readLine(), " ");
+        int temp_answer = 0;
+        int answer = 0;
+        while (st.hasMoreTokens()) {
+            int t = Integer.parseInt(st.nextToken());
+            if (count[t] >= K) {
+//                System.out.println("**" + answer + "  " + temp_answer);
+                answer = Math.max(answer, temp_answer);
+                while(true) {
+                    int tt = q.poll();
+                    temp_answer--;
+                    if (tt == t) {
+                        break;
+                    }
+                    count[tt]--;
+                }
+            }
+            else {
+                count[t]++;
+            }
+            q.offer(t);
+            temp_answer++;
+//            System.out.print(t + " : ");
+//            for (int i = 0; i < 10; i++) {
+//                System.out.print(count[i] + " ");
+//            }
+//            System.out.println(" : " + temp_answer);
+        }
+        answer = Math.max(answer, temp_answer);
+        System.out.println(answer);
+   }
+}
