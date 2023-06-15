@@ -1,0 +1,147 @@
+{
+    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+    // 기존 특성에 대한 설명을 보려면 가리킵니다.
+    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main_Bj_16928_뱀과사다리게임",
+            "request": "launch",
+            "mainClass": "Main_Bj_16928_뱀과사다리게임",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_땅따먹기",
+            "request": "launch",
+            "mainClass": "Solution_Programers_땅따먹기",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_매출하락최소화",
+            "request": "launch",
+            "mainClass": "Solution_Programers_매출하락최소화",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_사라지는발판",
+            "request": "launch",
+            "mainClass": "Solution_Programers_사라지는발판",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_아이템줍기",
+            "request": "launch",
+            "mainClass": "Solution_Programers_아이템줍기",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_폰켓몬",
+            "request": "launch",
+            "mainClass": "Solution_Programers_폰켓몬",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_행렬과연산",
+            "request": "launch",
+            "mainClass": "Solution_Programers_행렬과연산",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Temp",
+            "request": "launch",
+            "mainClass": "Temp",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_네트워크",
+            "request": "launch",
+            "mainClass": "s0908.Solution_Programers_네트워크",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_사전모음",
+            "request": "launch",
+            "mainClass": "s0908.Solution_Programers_사전모음",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_12979_기지국설치",
+            "request": "launch",
+            "mainClass": "s1013.Solution_Programers_12979_기지국설치",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_경주로건설",
+            "request": "launch",
+            "mainClass": "s1020.Solution_Programers_경주로건설",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_거스름돈",
+            "request": "launch",
+            "mainClass": "s1027.Solution_Programers_거스름돈",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Solution_Programers_괄호회전하기",
+            "request": "launch",
+            "mainClass": "s1108.Solution_Programers_괄호회전하기",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Soluciton_Programers_혼자놀기의달인",
+            "request": "launch",
+            "mainClass": "s1201.Soluciton_Programers_혼자놀기의달인",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_bj_11723_집합",
+            "request": "launch",
+            "mainClass": "s230608.Main_bj_11723_집합",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_bj_14940_쉬운최단거리",
+            "request": "launch",
+            "mainClass": "s230608.Main_bj_14940_쉬운최단거리",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_bj_20055_컨베이어벨트위의로봇",
+            "request": "launch",
+            "mainClass": "s230608.Main_bj_20055_컨베이어벨트위의로봇",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_bj_9527_1의개수세기",
+            "request": "launch",
+            "mainClass": "s230608.Main_bj_9527_1의개수세기",
+            "projectName": "이주찬_6891affa"
+        }
+    ]
+}
