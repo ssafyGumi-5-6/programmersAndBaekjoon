@@ -1,0 +1,84 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Vertex {
+    int node;
+    int weight;
+    Vertex(int node, int weight) {
+        this.node = node;
+        this.weight = weight;
+    }
+}
+
+
+public class Main {
+    static int N;
+    static int M;
+    static int X;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        X = Integer.parseInt(st.nextToken());
+
+        HashMap<Integer, ArrayList<Vertex>> go = new HashMap<>();
+        HashMap<Integer, ArrayList<Vertex>> back = new HashMap<>();
+
+        for (int i = 1; i <= N; i++) {
+            go.put(i, new ArrayList<>());
+            back.put(i, new ArrayList<>());
+        }
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+
+            go.get(a).add(new Vertex(b, c));
+            back.get(b).add(new Vertex(a, c));
+        }
+
+        int [] go_cost = costing(go);
+//        System.out.println(Arrays.toString(go_cost));
+        int [] back_cost = costing(back);
+//        System.out.println(Arrays.toString(back_cost));
+
+        int answer = 0;
+        for (int i = 1; i <= N; i++) {
+            if (i == X) continue;
+            answer = Math.max(answer, go_cost[i] + back_cost[i]);
+        }
+        System.out.println(answer);
+   }
+   static int [] costing(HashMap<Integer, ArrayList<Vertex>> map) {
+        int [] cost = new int [N+1];
+        for (int i = 1; i <= N; i++) {
+            cost[i] = Integer.MAX_VALUE;
+        }
+        cost[X] = 0;
+
+       PriorityQueue<Vertex> pq = new PriorityQueue<>((o1, o2) -> {
+           return o1.weight - o2.weight;
+       });
+
+       pq.add(new Vertex(X, 0));
+
+       while(!pq.isEmpty()) {
+           Vertex v = pq.poll();
+           for (Vertex vertex : map.get(v.node)) {
+               if (cost[vertex.node] > cost[v.node] + vertex.weight) {
+                   cost[vertex.node] = cost[v.node] + vertex.weight;
+                   pq.offer(new Vertex(vertex.node, cost[vertex.node]));
+               }
+           }
+       }
+
+       return cost;
+   }
+}
