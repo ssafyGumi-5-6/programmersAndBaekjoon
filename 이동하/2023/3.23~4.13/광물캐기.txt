@@ -1,0 +1,62 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] picks, String[] minerals) {
+        int temp = 0;
+        for (int i : picks) {
+            temp += i;
+        }
+        int [] tool = new int[Math.min(temp, (minerals.length + 4) / 5)];
+        int tool_len = tool.length;
+        int index = 0;
+        Loop1:
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < picks[i]; j++) {
+                if (index >= tool_len) break Loop1;
+                tool[index++] = i;
+            }
+        }
+        System.out.println(Arrays.toString(tool));
+        
+        int [] d = new int [tool_len];
+        for (int i = 0; i < Math.min(minerals.length, tool_len * 5); i++) {
+            if (minerals[i].charAt(0) == 'd') {
+                d[i/5] += 625;
+            } else if (minerals[i].charAt(0) == 'i') {
+                d[i/5] += 25;
+            } else {
+                d[i/5] += 1;
+            }
+        }
+        Arrays.sort(d);
+        // System.out.println(Arrays.toString(d));
+        int [] dd = new int [tool_len];
+        for (int i = 0; i < tool_len; i++) {
+            dd[i] = d[tool_len - i - 1];
+        }
+        System.out.println(Arrays.toString(dd));
+        int answer = 0;
+        for (int i = 0; i < tool_len; i++) {
+            if (tool[i] == 0) {
+                answer += dd[i] / 625 * 1;
+                dd[i] -= dd[i] / 625 * 625;
+                answer += dd[i] / 25 * 1;
+                dd[i] -= dd[i] / 25 * 25;
+                answer += dd[i];
+            } else if (tool[i] == 1) {
+                answer += dd[i] / 625 * 5;
+                dd[i] -= dd[i] / 625 * 625;
+                answer += dd[i] / 25 * 1;
+                dd[i] -= dd[i] / 25 * 25;
+                answer += dd[i];
+            } else {
+                answer += dd[i] / 625 * 25;
+                dd[i] -= dd[i] / 625 * 625;
+                answer += dd[i] / 25 * 5;
+                dd[i] -= dd[i] / 25 * 25;
+                answer += dd[i];
+            }
+        }
+        return answer;
+    }
+}
