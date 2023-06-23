@@ -1,4 +1,4 @@
-package s230608;
+package y2023.s230608;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
