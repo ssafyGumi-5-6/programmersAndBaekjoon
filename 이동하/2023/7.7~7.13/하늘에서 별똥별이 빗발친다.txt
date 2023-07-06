@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Node {
+    int r, c;
+    Node(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int L = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        Node [] data = new Node [K];
+        for (int i = 0; i < K; i++) {
+            st = new StringTokenizer(br.readLine());
+            int r = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            data[i] = new Node(r, c);
+        }
+        int answer = -1;
+        for (int i = 0; i < K; i++) {
+            for (int j = 0; j < K; j++) {
+                Node stand1 = data[i];
+                int r_start = stand1.r;
+                int r_end = r_start+L;
+                Node stand2 = data[j];
+                int c_start = stand2.c;
+                int c_end = c_start+L;
+                int counting_star = 0;
+//                System.out.println(r_start + "~" + r_end + " " + c_start + "~" + c_end);
+                for (int k = 0; k < K; k++) {
+                    Node node = data[k];
+                    if (node.r < r_start || node.r > r_end || node.c < c_start || node.c > c_end) continue;
+//                    System.out.println(node.r + " " + node.c);
+                    counting_star++;
+//                    if (node.r >= r_start && node.r <= r_start + L && node.c >= c_start && node.c <= c_start + L) counting_star++;
+                }
+//                System.out.println(counting_star);
+                answer = Math.max(answer, counting_star);
+            }
+        }
+        System.out.println(K-answer);
+    }
+}
