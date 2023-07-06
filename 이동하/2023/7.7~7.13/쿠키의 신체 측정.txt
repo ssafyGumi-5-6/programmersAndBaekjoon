@@ -1,0 +1,100 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int N = Integer.parseInt(br.readLine());
+        char [] [] board = new char [N+1][N+1];
+
+        for (int i = 1; i <= N; i++) {
+            String s = br.readLine();
+            for (int j = 1; j <= N; j++) {
+                board[i][j] = s.charAt(j-1);
+            }
+        }
+
+        int heart_r = -1;
+        int heart_c = -1;
+        Loop1:
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
+                if (board[i][j] == '*' && board[i-1][j] == '*' && board[i][j-1] == '*' && board[i+1][j] == '*' && board[i][j+1] == '*') {
+                    heart_r = i;
+                    heart_c = j;
+                    break Loop1;
+                }
+            }
+        }
+
+        int next_r, next_c;
+
+        next_r = heart_r - 1;
+        next_c = heart_c;
+        int head = 0;
+        while (true) {
+            if (next_r <= 0) break;
+            if (board[next_r][next_c] != '*') break;
+            head++;
+            next_r--;
+        }
+
+        next_r = heart_r;
+        next_c = heart_c - 1;
+        int left_arm = 0;
+        while (true) {
+            if (next_c <= 0) break;
+            if (board[next_r][next_c] != '*') break;
+            left_arm++;
+            next_c--;
+        }
+
+        next_r = heart_r;
+        next_c = heart_c + 1;
+        int right_arm = 0;
+        while (true) {
+            if (next_c > N) break;
+            if (board[next_r][next_c] != '*') break;
+            right_arm++;
+            next_c++;
+        }
+
+        next_r = heart_r + 1;
+        next_c = heart_c;
+        int weist = 0;
+        while (true) {
+            if (board[next_r][next_c] != '*') break;
+            weist++;
+            next_r++;
+        }
+
+        int weist_r = next_r - 1;
+        int weist_c = next_c;
+
+        next_r = weist_r + 1;
+        next_c = weist_c - 1;
+        int left_leg = 0;
+        while (true) {
+            if (next_r > N) break;
+            if (board[next_r][next_c] != '*') break;
+            left_leg++;
+            next_r++;
+        }
+
+        next_r = weist_r + 1;
+        next_c = weist_c + 1;
+        int right_leg = 0;
+        while (true) {
+            if (next_r > N) break;
+            if (board[next_r][next_c] != '*') break;
+            right_leg++;
+            next_r++;
+        }
+        System.out.println(heart_r + " " + heart_c);
+        System.out.println(left_arm + " " + right_arm + " " + weist + " " + left_leg + " " + right_leg);
+    }
+}

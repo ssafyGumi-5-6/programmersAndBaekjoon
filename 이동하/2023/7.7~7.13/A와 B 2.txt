@@ -1,0 +1,52 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+
+public class Main {
+    static int start_len, answer = 0;
+    static StringBuilder start;
+    static String start_string;
+    static HashSet<String> set;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        start = new StringBuilder();
+        start.append(br.readLine());
+        start_string = start.toString();
+        start_len = start.length();
+        StringBuilder end = new StringBuilder();
+        end.append(br.readLine());
+
+        set = new HashSet<>();
+        deleting(end);
+        System.out.println(answer);
+    }
+    static void deleting(StringBuilder s) {
+//        System.out.println(s);
+        if (s.toString().equals(start_string)) {
+//            System.out.println("발견");
+            answer = 1;
+        }
+//        System.out.println(s.length() + " " + start_len);
+        if (s.length() <= start_len) {
+//            System.out.println("리턴해유");
+            return;
+        }
+        if (s.charAt(s.length()-1) == 'A') {
+//            System.out.println("Aㅂ라견");
+            if (!set.contains(s.deleteCharAt(s.length() - 1))) {
+                set.add(s.toString());
+                deleting(s);
+            }
+            s.append('A');
+        }
+        if (s.charAt(0) == 'B') {
+//            System.out.println("Bㅂ라견");
+            if (!set.contains(s.reverse().deleteCharAt(s.length() - 1))) {
+                set.add(s.toString());
+                deleting(s);
+            }
+            s.append('B').reverse();
+        }
+    }
+}
