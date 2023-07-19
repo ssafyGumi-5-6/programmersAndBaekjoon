@@ -1,0 +1,76 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+class Node {
+    int r, c;
+    Node (int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int [] [] delta = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int L = Integer.parseInt(st.nextToken());
+        int R = Integer.parseInt(st.nextToken());
+
+        int [] [] data = new int [N] [N];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                data[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        int answer = 0;
+        while (true) {
+            int count = 0;
+            boolean flag = false;
+            boolean [] [] visit = new boolean [N] [N];
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (visit[i][j] == true) continue;
+                    count++;
+                    int people = 0;
+                    ArrayList<Node> league = new ArrayList<>();
+                    LinkedList<Node> q = new LinkedList<>();
+                    q.offer(new Node(i, j));
+                    visit[i][j] = true;
+                    while (!q.isEmpty()) {
+                        Node n = q.poll();
+                        league.add(n);
+                        people += data[n.r][n.c];
+                        for (int [] d : delta) {
+                            int next_r = n.r + d[0];
+                            int next_c = n.c + d[1];
+                            if (next_r < 0 || next_r >= N || next_c < 0 || next_c >= N) continue;
+                            if (visit[next_r][next_c] == true) continue;
+                            int difference = Math.abs(data[n.r][n.c] - data[next_r][next_c]);
+                            if (!(L <= difference && difference <= R)) continue;
+                            visit[next_r][next_c] = true;
+                            q.offer(new Node(next_r, next_c));
+                        }
+                    }
+                    int new_people = people / league.size();
+                    if (people != new_people) flag = true;
+                    for (Node n : league) {
+                        data[n.r][n.c] = new_people;
+                    }
+//                    for (int [] k : data) System.out.println(Arrays.toString(k));
+                }
+            }
+            if (count >= 1 && flag) answer++;
+            if (count == 1 || !flag) break;
+        }
+        System.out.println(answer);
+    }
+}

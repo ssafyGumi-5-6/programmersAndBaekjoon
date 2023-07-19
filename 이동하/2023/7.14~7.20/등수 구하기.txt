@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int point = Integer.parseInt(st.nextToken());
+        int P = Integer.parseInt(st.nextToken());
+        if (N == 0) {
+            if (P > 0) {
+                System.out.println(1);
+            } else {
+                System.out.println(-1);
+            }
+            return;
+        }
+        st = new StringTokenizer(br.readLine(), " ");
+        int [] data = new int [N+1];
+        data[0] = Integer.MAX_VALUE;
+        for (int i = 1; i <= N; i++) data[i] = Integer.parseInt(st.nextToken());
+//        System.out.println(Arrays.toString(data));
+        int left = 0;
+        int right = N+1;
+        int mid;
+
+        while (left + 1 < right) {
+            mid = (left + right) / 2;
+//            System.out.println(left + " " + right + " " + mid + " " + data[mid]);
+            if (point < data[mid]) {
+                left = mid;
+            } else {
+                right = mid;
+            }
+        }
+        int answer = right;
+
+        left = 0;
+        right = N+1;
+        while (left + 1 < right) {
+            mid = (left + right) / 2;
+//            System.out.println(left + " " + right + " " + mid + " " + data[mid]);
+            if (point <= data[mid]) {
+                left = mid;
+            } else {
+                right = mid;
+            }
+        }
+        System.out.println((right <= P)? answer : -1);
+    }
+}
+/*
+10 5 10
+5 5 5 5 5 5 5 5 5 5
+ */
