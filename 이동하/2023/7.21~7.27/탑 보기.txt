@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+class Pair {
+    int key, index;
+    Pair (int key, int index) {
+        this.key = key;
+        this.index = index;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int N = Integer.parseInt(br.readLine());
+        int [] data = new int [N+1];
+        st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 1; i <= N; i++) data[i] = Integer.parseInt(st.nextToken());
+        int [] [] helper = new int [4] [N+1];
+        Stack<Pair> stack;
+        stack = new Stack<>();
+        stack.push(new Pair(data[1], 1));
+        for (int i = 2; i <= N; i++) {
+            while (!stack.isEmpty() && stack.peek().key <= data[i]) stack.pop();
+            helper[0][i] = stack.size();
+            if (!stack.isEmpty()) helper[1][i] = stack.peek().index;
+            stack.push(new Pair(data[i], i));
+        }
+        stack = new Stack<>();
+        stack.push(new Pair(data[N], N));
+        for (int i = N-1; i >= 1; i--) {
+            while (!stack.isEmpty() && stack.peek().key <= data[i]) stack.pop();
+            helper[2][i] = stack.size();
+            if (!stack.isEmpty()) helper[3][i] = stack.peek().index;
+            stack.push(new Pair(data[i], i));
+        }
+//        for (int [] i : helper) System.out.println(Arrays.toString(i));
+        int [] [] answer = new int [2] [N+1];
+        for (int i = 1; i <= N; i++) {
+            answer[0][i] = helper[0][i] + helper[2][i];
+            if (helper[1][i] > 0 && helper[3][i] > 0) answer[1][i] = (i - helper[1][i] <= helper[3][i] - i) ? helper[1][i] : helper[3][i];
+            else answer[1][i] = Math.max(helper[1][i], helper[3][i]);
+        }
+//        System.out.println(Arrays.toString(answer[0]));
+//        System.out.println(Arrays.toString(answer[1]));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= N; i++) {
+            sb.append(answer[0][i]);
+            if (answer[0][i] > 0) sb.append(" " + answer[1][i]);
+            sb.append("\n");
+        }
+        System.out.print(sb);
+    }
+}

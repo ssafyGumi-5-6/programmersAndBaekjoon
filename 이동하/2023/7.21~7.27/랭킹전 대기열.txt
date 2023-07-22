@@ -1,0 +1,66 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+class Room {
+    ArrayList<Player> player_list;
+    int player_count;
+    int mid_level;
+    Room(ArrayList<Player> player_list, int player_count, int mid_level) {
+        this.player_list = player_list;
+        this.player_count = player_count;
+        this.mid_level = mid_level;
+    }
+}
+
+class Player {
+    int level;
+    String nickname;
+    Player(int level, String nickname) {
+        this.level = level;
+        this.nickname = nickname;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int p = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        ArrayList<Room> room_list = new ArrayList<>();
+        Loop1:
+        for (int i = 0; i < p; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int l = Integer.parseInt(st.nextToken());
+            String n = st.nextToken();
+            for (Room room : room_list) {
+                if (room.player_count >= m) continue;
+                if (l < room.mid_level - 10 || room.mid_level + 10 < l) continue;
+                room.player_list.add(new Player(l, n));
+                room.player_count++;
+                continue Loop1;
+            }
+            Room room = new Room(new ArrayList<>(), 1, l);
+            room.player_list.add(new Player(l, n));
+            room_list.add(room);
+        }
+        for (Room room : room_list) {
+            if (room.player_count >= m) System.out.println("Started!");
+            else System.out.println("Waiting!");
+            room.player_list.sort((o1, o2) -> o1.nickname.compareTo(o2.nickname));
+            for (Player player : room.player_list) {
+                System.out.println(player.level + " " + player.nickname);
+            }
+        }
+    }
+}
+
+/*
+0 1 2 3 4
+1 3 3 5
+ */

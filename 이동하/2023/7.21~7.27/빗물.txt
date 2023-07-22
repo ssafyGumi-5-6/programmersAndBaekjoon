@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int H = Integer.parseInt(st.nextToken());
+        int W = Integer.parseInt(st.nextToken());
+        boolean [] [] data = new boolean [H] [W];
+
+        st = new StringTokenizer(br.readLine());
+
+        for (int j = 0; j < W; j++) {
+            int h = Integer.parseInt(st.nextToken());
+            for (int i = H-1; i >= H-h; i--) {
+                data[i][j] = true;
+            }
+        }
+
+        int water = 0;
+        int water_sum = 0;
+        boolean flag = false;
+        for (int i = 0; i < H; i++) {
+            water = 0;
+            if (data[i][0]) flag = true;
+            else flag = false;
+            for (int j = 1; j < W; j++) {
+                if (flag) {
+                    if(data[i][j]) {
+                        if (!data[i][j-1]) {
+                            water_sum += water;
+                            water = 0;
+                        }
+                    } else {
+                        water++;
+                    }
+                } else {
+                    if (data[i][j]) flag = true;
+                }
+
+            }
+        }
+        System.out.println(water_sum);
+    }
+}

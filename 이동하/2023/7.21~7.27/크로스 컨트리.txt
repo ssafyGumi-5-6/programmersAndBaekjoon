@@ -1,0 +1,62 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+
+        int TC = Integer.parseInt(br.readLine());
+        for (int testcase = 1; testcase <= TC; testcase++) {
+            int N = Integer.parseInt(br.readLine());
+            int [] data = new int [N];
+            st = new StringTokenizer(br.readLine(), " ");
+            int [] count = new int [201];
+            HashSet<Integer> team_index = new HashSet<>();
+            int [] fifth_man = new int [201];
+            for (int i = 0; i < N; i++) {
+                data[i] = Integer.parseInt(st.nextToken());
+                count[data[i]]++;
+                team_index.add(data[i]);
+                if (count[data[i]] == 5) fifth_man[data[i]] = i;
+            }
+            HashSet<Integer> team_make = new HashSet<>();
+            for (int i : team_index) {
+                if (count[i] >= 6) team_make.add(i);
+            }
+            count = new int [201];
+            int [] point_sum = new int [201];
+            int point = 0;
+            for (int i = 0; i < N; i++) {
+                if (!team_make.contains(data[i])) continue;
+                point++;
+                count[data[i]]++;
+                if (count[data[i]] >= 5) continue;
+                point_sum[data[i]] += point;
+//                System.out.println(Arrays.toString(point_sum));
+            }
+            int answer_team = -1;
+            int answer_team_point = Integer.MAX_VALUE;
+            int answer_fifth_man = Integer.MAX_VALUE;
+            for (int i : team_make) {
+//                System.out.println(i + " " + point_sum[i] + " " + fifth_man[i]);
+                if (answer_team_point < point_sum[i]) continue;
+                if (answer_team_point == point_sum[i] && answer_fifth_man < fifth_man[i]) continue;
+                answer_team = i;
+                answer_team_point = point_sum[i];
+                answer_fifth_man = fifth_man[i];
+            }
+            sb.append(answer_team + "\n");
+        }
+        System.out.println(sb);
+    }
+}
+
+/*
+0 1 2 3 4
+1 3 3 5
+ */
