@@ -1,0 +1,33 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        int [] data = new int [M+2];
+        data[M+1] = N;
+        st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 1; i <= M; i++) {
+            int a = Integer.parseInt(st.nextToken());
+//            System.out.println(a);
+            data[i] = a;
+        }
+        int helper = data[1] - data[0];
+//        System.out.println(Arrays.toString(data));
+//        System.out.println(helper);
+        for (int i = 2; i <= M; i++) {
+            helper = Math.max(helper, (data[i] - data[i-1] + 1)/2);
+//            System.out.println(helper);
+        }
+        helper = Math.max(helper, data[M+1] - data[M]);
+//        System.out.println(helper);
+
+        System.out.println(helper);
+    }
+}

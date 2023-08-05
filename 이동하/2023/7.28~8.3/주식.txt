@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int T = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        for (int testcase = 1; testcase <= T; testcase++) {
+            int N = Integer.parseInt(br.readLine());
+            st = new StringTokenizer(br.readLine(), " ");
+            long [] data = new long [N];
+            for (int i = 0; i < N; i++) {
+                data[i] = Integer.parseInt(st.nextToken());
+            }
+            boolean [] sell_day = new boolean [N];
+            long key = -1;
+            for (int i = N-1; i >= 0; i--) {
+                if (key < data[i]) {
+                    sell_day[i] = true;
+                    key = data[i];
+                }
+            }
+            long answer = 0;
+            long sum = 0;
+            long count = 0;
+            for (int i = 0; i < N; i++) {
+                if (sell_day[i] == false) {
+                    count++;
+                    sum += data[i];
+                } else {
+                    answer += count * data[i] - sum;
+                    count = 0;
+                    sum = 0;
+                }
+            }
+            sb.append(answer + "\n");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        System.out.println(sb);
+    }
+}

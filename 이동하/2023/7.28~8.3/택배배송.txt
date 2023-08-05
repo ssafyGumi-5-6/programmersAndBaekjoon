@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        HashMap<Integer, HashSet<Integer>> graph = new HashMap<>();
+        HashMap<Integer, HashMap<Integer, Integer>> cost_map = new HashMap<>();
+        for (int i = 1; i <= N; i++) {
+            graph.put(i, new HashSet<Integer>());
+            cost_map.put(i, new HashMap<>());
+        }
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+
+            if (!graph.get(a).contains(b)) cost_map.get(a).put(b, c);
+            else cost_map.get(a).put(b, Math.min(cost_map.get(a).get(b), c));
+            graph.get(a).add(b);
+
+            if (!graph.get(b).contains(a)) cost_map.get(b).put(a, c);
+            else cost_map.get(b).put(a, Math.min(cost_map.get(b).get(a), c));
+            graph.get(b).add(a);
+        }
+
+        int [] cost = new int [N+1];
+        for (int i = 2; i <= N; i++) cost[i] = Integer.MAX_VALUE;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> cost[o1] - cost[o2]);
+        pq.offer(1);
+
+        while (!pq.isEmpty()) {
+            int v = pq.poll();
+            for (int i : graph.get(v)) {
+                int cost_v_to_i = cost_map.get(v).get(i);
+                if (cost[i] > cost[v] + cost_v_to_i) {
+                    cost[i] = cost[v] + cost_v_to_i;
+                    pq.offer(i);
+                }
+            }
+        }
+
+//        System.out.println(Arrays.toString(cost));
+        System.out.println(cost[N]);
+    }
+}
+/*
+2,500,000,000
+ */
