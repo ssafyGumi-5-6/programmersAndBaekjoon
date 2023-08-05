@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int temperature, int t1, int t2, int a, int b, int[] onboard) {
+        temperature += 10;
+        t1 += 10;
+        t2 += 10;
+        int time = onboard.length;
+        int [] [] dp = new int [51][time];
+        for (int i = 0; i < time; i++) {
+            for (int j = 0; j <= 50; j++) {
+                dp[j][i] = 1_000_000;
+            }
+        }
+        dp[temperature][0] = 0;
+        for (int i = 0; i < time-1; i++) {
+            for (int j = 0; j <= 50; j++) {
+                if (temperature == j) {
+                    dp[j][i+1] = Math.min(dp[j][i+1], dp[j][i]);
+                } else {
+                    if (temperature > j) {
+                        if (j-1 >= 0) dp[j+1][i+1] = Math.min(dp[j+1][i+1], dp[j][i]);
+                    } else {
+                        if (j+1 <= 50) dp[j-1][i+1] = Math.min(dp[j-1][i+1], dp[j][i]);
+                    }
+                }
+                dp[j][i+1] = Math.min(dp[j][i+1], dp[j][i] + b);
+                if (j-1 >= 0) dp[j-1][i+1] = Math.min(dp[j-1][i+1], dp[j][i] + a);
+                if (j+1 <= 50) dp[j+1][i+1] = Math.min(dp[j+1][i+1], dp[j][i] + a);
+            }
+            if (onboard[i+1] == 1) {
+                for (int j = 0; j < t1; j++) dp[j][i+1] = 1_000_000;
+                for (int j = t2+1; j <= 50; j++) dp[j][i+1] = 1_000_000;
+            }
+        }
+        
+        // for (int [] i : dp) System.out.println(Arrays.toString(i));
+        int answer = 1_000_000;
+        for (int i = 0; i <= 50; i++) {
+            answer = Math.min(answer, dp[i][time-1]);
+        }
+        // System.out.println(answer);
+        return answer;
+    }
+}
