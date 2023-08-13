@@ -1,0 +1,40 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // 입력 받기위한 변수를 선언해요
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        int [] data = new int [N];
+        int idx = 0;
+        for (String s : br.readLine().split(" ")) {
+            data[idx++] = Integer.parseInt(s);
+        }
+        int a = 0;
+        int b = N-1;
+        int ph = Integer.MAX_VALUE;
+        int a_a = -1;
+        int a_b = -1;
+        while (a < b) {
+            int temp = Math.abs(data[a] + data[b]);
+            if (ph > temp) {
+                ph = temp;
+                a_a = data[a];
+                a_b = data[b];
+            }
+            if (data[a] + data[b] == 0) {
+                System.out.println(data[a] + " " + data[b]);
+                return;
+            } else if (data[a] + data[b] > 0) {
+                b--;
+            } else if (data[a] + data[b] < 0) {
+                a++;
+            }
+        }
+        System.out.println(a_a + " " + a_b);
+    }
+}

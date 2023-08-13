@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+
+        HashSet<Character> mo = new HashSet<>();
+        mo.add('a');
+        mo.add('e');
+        mo.add('i');
+        mo.add('o');
+        mo.add('u');
+        Loop1:
+        while(true) {
+            String s = br.readLine();
+            if (s.equals("end")) break;
+            boolean mo_flag = false;
+            int mo_count = 0;
+            int ja_count = 0;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (mo.contains(c)) {
+                    mo_flag = true;
+                    mo_count++;
+                    ja_count = 0;
+                } else {
+                    mo_count = 0;
+                    ja_count++;
+                }
+                if (mo_count >= 3 || ja_count >= 3) {
+                    sb.append("<"+s+"> is not acceptable.\n");
+//                    System.out.println("3글자연속");
+                    continue Loop1;
+                }
+                if (i > 0 && c != 'o' && c != 'e' && s.charAt(i-1) == c) {
+                    sb.append("<"+s+"> is not acceptable.\n");
+//                    System.out.println("두 글자가 겹침");
+                    continue Loop1;
+                }
+            }
+            if (mo_flag == false) {
+                sb.append("<"+s+"> is not acceptable.\n");
+//                System.out.println("모음이 업음");
+                continue Loop1;
+            }
+            sb.append("<"+s+"> is acceptable.\n");
+//            System.out.println("모두 통과");
+        }
+        System.out.println(sb);
+    }
+}

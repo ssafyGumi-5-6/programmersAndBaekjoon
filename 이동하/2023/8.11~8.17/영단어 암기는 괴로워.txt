@@ -1,0 +1,39 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        HashMap<String, Integer> word = new HashMap<>();
+        for (int i = 0; i < N; i++) {
+            String s = br.readLine();
+            if (s.length() < M) continue;
+            if (word.get(s) == null) word.put(s, 0);
+            word.put(s, word.get(s) + 1);
+        }
+        ArrayList<String> word_array = new ArrayList<>();
+        for (String s : word.keySet()) {
+            word_array.add(s);
+        }
+        word_array.sort((o1, o2) -> {
+            if (word.get(o2) != word.get(o1)) return word.get(o2) - word.get(o1);
+            else if (o2.length() != o1.length()) return o2.length() - o1.length();
+            return o1.compareTo(o2);
+        });
+        for (String s : word_array) {
+            sb.append(s + "\n");
+        }
+        System.out.println(sb);
+    }
+}
