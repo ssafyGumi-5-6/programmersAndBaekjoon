@@ -3,68 +3,65 @@ package 예산;
 import java.util.*;
 import java.io.*;
 
-// 4
-//1 1 3 7
-//11
-
-// 답이 나오지 않는 예제
-
 public class Solution {
 
     private static int N;
-    private static long M;
+    private static int M;
+    private static long sum;
     private static int[] arr;
 
-    private static int upperBound(int findData){
-        // M을 찾습니다.
-        int left = 0;
-        int right = arr.length;
+    static int upperBound() {
 
-        while(left < right){
-            int mid = (left + right) / 2;
-            System.out.println("left : " + left + " right : " + right + " mid : " + mid + " findData : " + findData);
-            if(findData < arr[mid]) {
-                right = mid;
-                findData += (findData - arr[left]);
-            }
-            else {
-                left = mid + 1;
-            }
+        // 예산을 그냥 줄 수 있으면 바로 반환
+        if (sum <= M) {
+            return arr[N - 1];
         }
 
-        return left;
+        int start = 0;
+        int end = M;
+
+        while (start <= end) {
+            int current = 0;
+            int mid = (start + end) / 2; // 상한가
+
+            for (int i = 0; i < N; i++) {
+                if (arr[i] > mid)
+                    current += mid;
+                else
+                    current += arr[i];
+            }
+
+            // 현재 상한가로 예산을 맞추지 못할 경우에
+            if (current > M) {
+                end = mid - 1;
+            }
+            // 현재 상한가로 예산을 맞추기 부족함
+            else if (current < M){
+                start = mid + 1;
+            }
+            else
+                return mid;
+        }
+        return end;
     }
 
     public static void main(String[] args) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(reader.readLine());
 
-        List<Integer> list = new ArrayList<>();
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-
-        while(tokenizer.hasMoreTokens()) list.add(Integer.parseInt(tokenizer.nextToken()));
-        arr = list.stream().mapToInt(Integer::intValue).toArray();
+        arr = new int[N];
+        for(int i = 0 ; i < N; i++){
+            arr[i] = Integer.parseInt(tokenizer.nextToken());
+            sum += arr[i];
+        }
         Arrays.sort(arr);
 
-        M = Long.parseLong(reader.readLine());
-
-        int findIndex = upperBound((int)M/N);
+        M = Integer.parseInt(reader.readLine());
 
         // 0 ~ findIndex - 1 까지는 더한 값을 빼줌
-        for(int i = 0; i < findIndex; i++) M -= arr[i];
 
-        long[] dp = new long[N];
-        dp[0] = arr[0];
-        for(int i = 1 ; i < N; i++) dp[i] = dp[i-1] + arr[i];
-
-        int answer = 0;
-        // 남은 값으로 나누기 계산, 만약 남은 값의 총합이 빼고남은 M보다 작을 경우 인덱스 마지막 값이 가장 큰 값
-        System.out.println("찾은 인덱스 : " + findIndex);
-        System.out.println("M : " + M);
-        if(dp[N - 1] - dp[findIndex] + arr[findIndex] > M) answer =(int)M / (N - findIndex);
-        else answer = arr[N - 1];
-
-        System.out.println(answer);
+        System.out.println(upperBound());
 
         reader.close();
     }
