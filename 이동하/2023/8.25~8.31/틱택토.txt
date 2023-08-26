@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+
+        while (true) {
+            String s = br.readLine();
+            if (s.equals("end")) break;
+            char [] data = s.toCharArray();
+
+            int X_count = 0;
+            int O_count = 0;
+            int dot_count = 0;
+            for (char c : data) {
+                if (c == 'O') O_count++;
+                else if (c == 'X') X_count++;
+                else dot_count++;
+            }
+
+            // 후수가 더 많은 돌을 놓거나 선수와 2개이상 차이 나는 경우
+            if (O_count > X_count || X_count - O_count > 1) {
+                sb.append("invalid\n");
+                continue;
+            }
+
+            HashMap<Character, Integer> order = new HashMap<>();
+            order.put('X', 0);
+            order.put('O', 1);
+            int [] bingo_count = new int [2];
+
+            if (data[0] != '.' && data[0] == data[1] && data[1] == data[2]) bingo_count[order.get(data[0])] = 1;
+            if (data[3] != '.' && data[3] == data[4] && data[4] == data[5]) bingo_count[order.get(data[3])] = 1;
+            if (data[6] != '.' && data[6] == data[7] && data[7] == data[8]) bingo_count[order.get(data[6])] = 1;
+
+            if (data[0] != '.' && data[0] == data[3] && data[3] == data[6]) bingo_count[order.get(data[0])] = 1;
+            if (data[1] != '.' && data[1] == data[4] && data[4] == data[7]) bingo_count[order.get(data[1])] = 1;
+            if (data[2] != '.' && data[2] == data[5] && data[5] == data[8]) bingo_count[order.get(data[2])] = 1;
+
+            if (data[0] != '.' && data[0] == data[4] && data[4] == data[8]) bingo_count[order.get(data[0])] = 1;
+            if (data[2] != '.' && data[2] == data[4] && data[4] == data[6]) bingo_count[order.get(data[2])] = 1;
+
+            // 아직 둘 수 있는데 빙고가 없는경우, 둘다 빙고가 있는 경우 // 후수가 빙고를 냈는데 선수가 다음 수를 둔 경우 // 선수가 빙고를 냈는데 후수가 다음 수를 낸경우
+            if ((dot_count > 0 && bingo_count[0] == 0 && bingo_count[1] == 0) || (bingo_count[0] * bingo_count[1] == 1) || (bingo_count[1] == 1 && X_count == O_count + 1) || (bingo_count[0] == 1 && X_count == O_count)) {
+                sb.append("invalid\n");
+                continue;
+            }
+
+            sb.append("valid\n");
+        }
+        System.out.println(sb);
+    }
+}

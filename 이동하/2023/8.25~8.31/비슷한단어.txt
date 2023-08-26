@@ -1,0 +1,49 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Main {
+
+    static int get_common_count(String a, String b) {
+        int count = 0;
+        for (int i = 0; i < Math.min(a.length(), b.length()); i++) {
+            if (a.charAt(i) != b.charAt(i)) break;
+            count++;
+        }
+        return count;
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        ArrayList<String> data = new ArrayList<>();
+        HashMap<String, Integer> mapping = new HashMap<>();
+        for (int i = 0; i < N; i++) {
+            String s = br.readLine();
+            if (mapping.get(s) == null) {
+                data.add(s);
+                mapping.put(s, i);
+            }
+        }
+        int new_N = data.size();
+
+        int max_count = -1;
+        int answer_a = -1;
+        int answer_b = -1;
+        for (int i = 0; i < new_N - 1; i++) {
+            for (int j = i+1; j < new_N; j++) {
+                int temp = get_common_count(data.get(i), data.get(j));
+                if (max_count < temp) {
+                    max_count = temp;
+                    answer_a = i;
+                    answer_b = j;
+                }
+            }
+        }
+//        System.out.println(answer_a + " " + answer_b);
+        System.out.println(data.get(answer_a));
+        System.out.println(data.get(answer_b));
+    }
+}
