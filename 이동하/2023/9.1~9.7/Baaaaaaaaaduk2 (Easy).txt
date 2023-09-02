@@ -1,0 +1,120 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Node {
+    int r, c;
+    Node(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int [] [] delta = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int [] [] board = new int [N] [M];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < M; j++) {
+                board[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        boolean [] [] visit = new boolean [N] [M];
+        HashMap<Integer, HashSet<Integer>> mok_mapping = new HashMap<>();
+        ArrayList<Integer> mok_count_mapping = new ArrayList<>();
+        int group_index = 1;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (visit[i][j] == true) continue;
+                if (board[i][j] != 2) continue;
+                int mok_count = 1;
+                visit[i][j] = true;
+                mok_mapping.put(group_index, new HashSet<>());
+                LinkedList<Node> q = new LinkedList<>();
+                q.offer(new Node(i, j));
+                while (!q.isEmpty()) {
+                    Node node = q.poll();
+                    for (int [] d : delta) {
+                        int next_r = node.r + d[0];
+                        int next_c = node.c + d[1];
+                        if (next_r < 0 || next_r >= N || next_c < 0 || next_c >= M) continue;
+                        if (visit[next_r][next_c] == true) continue;
+                        if (board[next_r][next_c] == 2) {
+                            visit[next_r][next_c] = true;
+                            q.offer(new Node(next_r, next_c));
+                            mok_count++;
+                        } else if (board[next_r][next_c] == 0) {
+                            mok_mapping.get(group_index).add(next_r * N + next_c);
+                        }
+                    }
+                }
+                group_index++;
+                mok_count_mapping.add(mok_count);
+            }
+        }
+//        N번째 상대 돌 그룹이 몇개의 돌로 이루어져 있는지, 어디에 숨구멍을 갖고 있는지를 확인했어요
+//        System.out.println(mok_mapping);
+//        System.out.println(mok_count_mapping);
+
+//        숨구멍이 두개 이하인 그룹의 숨구멍 노드만 고려할게요
+        HashSet<Integer> node_set = new HashSet<>();
+        for (int i = 1; i < group_index; i++) {
+            if (mok_mapping.get(i).size() > 2) continue;
+            for (int j : mok_mapping.get(i)) {
+                node_set.add(j);
+            }
+        }
+//        System.out.println(node_set);
+
+//        만약 막을 수 있는 숨구멍이 하나도 없다면 그냥 끝내요
+        int node_set_size = node_set.size();
+        if (node_set_size == 0) {
+            System.out.println(0);
+            return;
+        }
+        int [] node_set_arr = new int [node_set_size];
+        int node_set_arr_index = 0;
+        for (int i : node_set) {
+            node_set_arr[node_set_arr_index++] = i;
+        }
+
+//        막을 수 있는 숨구멍이 하나라면 그 숨구멍을 막아서 모든 숨구멍이 막히는 그룹의 돌 갯수를 세요
+        if (node_set_size == 1) {
+            int answer = 0;
+            for (int i = 1; i < group_index; i++) {
+                if (mok_mapping.get(i).size() == 1 && mok_mapping.get(i).contains(node_set_arr[0])) answer += mok_count_mapping.get(i-1);
+            }
+            System.out.println(answer);
+            return;
+        }
+
+//        숨구멍을 두개 골라서 그 숨구멍을 막았을때 모든 숨구멍이 막히는 그룹의 돌 갯수를 세요
+        int answer = -1;
+        for (int i = 0; i < node_set_size - 1; i++) {
+            for (int j = i + 1; j < node_set_size; j++) {
+                int temp_answer = 0;
+                int a = node_set_arr[i];
+                int b = node_set_arr[j];
+//                System.out.println(a + " " + b);
+                for (int k = 1; k < group_index; k++) {
+                    int mok_mapping_get_size = mok_mapping.get(k).size();
+                    if (mok_mapping_get_size > 2) continue;
+                    if (mok_mapping_get_size == 2 && mok_mapping.get(k).contains(a) && mok_mapping.get(k).contains(b)) temp_answer += mok_count_mapping.get(k-1);
+                    else if (mok_mapping_get_size == 1 && (mok_mapping.get(k).contains(a) || mok_mapping.get(k).contains(b))) temp_answer += mok_count_mapping.get(k-1);
+//                    System.out.println(temp_answer);
+                }
+                answer = Math.max(answer, temp_answer);
+            }
+        }
+        System.out.println(answer);
+    }
+}
