@@ -13,7 +13,7 @@ word	result
 
 public class Solution_Programers_사전모음 {
     public static void main(String[] args) {
-        Solution_사전모음 solution = new Solution();
+        Solution_사전모음 solution = new Solution_사전모음();
         String[] input = {
             "AAAAE",
             "AAAE",
