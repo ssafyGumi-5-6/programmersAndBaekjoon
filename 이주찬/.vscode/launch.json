@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main_Bj_13549_숨바꼭질3",
+            "request": "launch",
+            "mainClass": "y2023.s0906.Main_Bj_13549_숨바꼭질3",
+            "projectName": "이주찬_9bf3f56"
+        },
+        {
+            "type": "java",
             "name": "main_bj_10431_줄세우기",
             "request": "launch",
             "mainClass": "y2023.s0906.main_bj_10431_줄세우기",
