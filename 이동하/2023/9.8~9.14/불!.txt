@@ -1,0 +1,82 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+class Node {
+    int r, c;
+    Node (int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        int [] [] delta = {{0,1},{1,0},{0,-1},{-1,0}};
+
+        int R = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+
+        char [] [] board = new char [R] [C];
+        int [] [] fire_index = new int [R] [C];
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) fire_index[i][j] = Integer.MAX_VALUE;
+        }
+        int [] [] step_index = new int [R] [C];
+        LinkedList<Node> fire_list = new LinkedList<>();
+        LinkedList<Node> step_list = new LinkedList<>();
+
+        for (int i = 0; i < R; i++) {
+            String temp_input = br.readLine();
+            for (int j = 0; j < C; j++) {
+                char temp_input_char = temp_input.charAt(j);
+                board[i][j] = temp_input_char;
+                if (temp_input_char == 'J') {
+                    step_index[i][j] = 1;
+                    step_list.offer(new Node(i, j));
+                } if (temp_input_char == 'F') {
+                    fire_index[i][j] = 1;
+                    fire_list.offer(new Node(i, j));
+                }
+            }
+        }
+//        for (char [] c : board) System.out.println(Arrays.toString(c));
+        while(!fire_list.isEmpty()) {
+            Node node = fire_list.poll();
+            for (int [] d : delta) {
+                int next_r = node.r + d[0];
+                int next_c = node.c + d[1];
+                if (next_r < 0 || next_r >= R || next_c < 0 || next_c >= C) continue;
+                if (board[next_r][next_c] == '#' || fire_index[next_r][next_c] < Integer.MAX_VALUE) continue;
+                fire_index[next_r][next_c] = fire_index[node.r][node.c] + 1;
+                fire_list.offer(new Node(next_r, next_c));
+            }
+        }
+//        for(int [] i : fire_index) System.out.println(Arrays.toString(i));
+//        System.out.println();
+        int answer = -1;
+        while(!step_list.isEmpty()) {
+            Node node = step_list.poll();
+            if (node.r == 0 || node.r == R-1 || node.c == 0 || node.c == C-1) {
+                answer = step_index[node.r][node.c];
+                break;
+            }
+            for (int [] d : delta) {
+                int next_r = node.r + d[0];
+                int next_c = node.c + d[1];
+                if (next_r < 0 || next_r >= R || next_c < 0 || next_c >= C) continue;
+                if (board[next_r][next_c] == '#' || step_index[next_r][next_c] > 0) continue;
+                if (step_index[node.r][node.c] + 1 >= fire_index[next_r][next_c]) continue;
+                step_index[next_r][next_c] = step_index[node.r][node.c] + 1;
+                step_list.offer(new Node(next_r, next_c));
+            }
+        }
+//        for(int [] i : step_index) System.out.println(Arrays.toString(i));
+        System.out.println((answer == -1) ? "IMPOSSIBLE" : answer);
+    }
+}

@@ -1,0 +1,84 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, K, P, X_to_int;
+    static String X;
+    static int [] [] cost;
+    static int [] number;
+    public static void main(String[] args) throws IOException {
+        cost = new int [10] [10];
+        int [] [] seven_segment_helper = {{0,1,2,4,5,6},{2,5},{0,2,3,4,6},{0,2,3,5,6},{1,2,3,5},{0,1,3,5,6},{0,1,3,4,5,6},{0,2,5},{0,1,2,3,4,5,6},{0,1,2,3,5,6}};
+        boolean [] [] seven_segment = new boolean [10] [7];
+        for (int i = 0; i < 10; i++) {
+            for (int j : seven_segment_helper[i]) {
+                seven_segment[i][j] = true;
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            for (int j = i+1; j < 10; j++) {
+                for (int k = 0; k < 7; k++) {
+                    if (seven_segment[i][k] != seven_segment[j][k]) cost[i][j]++;
+                }
+            }
+        }
+        for (int i = 1; i < 10; i++) {
+            for (int j = 0; j < i; j++) {
+                cost[i][j] = cost[j][i];
+            }
+        }
+//        for (int [] i : cost) System.out.println(Arrays.toString(i));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        N = Integer.parseInt(st.nextToken());
+        int K_helper = 1;
+        int ten_times = 10;
+        while (N >= ten_times) {
+            K_helper++;
+            ten_times *= 10;
+        }
+        st.nextToken();
+        K = K_helper;
+        number = new int [K];
+        P = Integer.parseInt(st.nextToken());
+        String X_helper = st.nextToken();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < K - X_helper.length(); i++) {
+            sb.append("0");
+        }
+        sb.append(X_helper);
+        X = sb.toString();
+        X_to_int = Integer.parseInt(X);
+        number_making(0);
+        System.out.println(answer);
+    }
+    static int making_cost = 0, answer = 0;
+    static void number_making(int level) {
+        int h = 1;
+        int current_number = 0;
+        for (int i = K-1; i >= 0; i--) {
+            current_number += h * number[i];
+            h *= 10;
+        }
+        if (current_number > N || (level == K && (current_number == 0 || current_number == X_to_int))) return;
+        if (level >= K) {
+//            System.out.println(Arrays.toString(number) + " " + making_cost + " " + answer);
+            if (making_cost <= P) {
+                answer++;
+            }
+            return;
+        }
+        int t = X.charAt(level) - '0';
+        for (int i = 0; i < 10; i++) {
+            number[level] = i;
+            making_cost += cost[t][i];
+            number_making(level + 1);
+            number[level] = 0;
+            making_cost -= cost[t][i];
+        }
+    }
+}

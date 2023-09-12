@@ -1,0 +1,54 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        st = new StringTokenizer(br.readLine(), " ");
+        int [] data = new int [N];
+        for (int i = 0; i < N; i++) {
+            data[i] = Integer.parseInt(st.nextToken());
+        }
+        int [] looking_right = new int [N];
+        int [] looking_left = new int [N];
+        long d_a, d_b;
+        for (int i = 0; i < N-1; i++) {
+            d_a = 1; d_b = data[i+1] - data[i];
+            looking_right[i] = 1;
+            for (int j = i+2; j < N; j++) {
+                long new_a = j - i;
+                long new_b = data[j] - data[i];
+                if (d_a * new_b > d_b * new_a) {
+                    d_a = new_a;
+                    d_b = new_b;
+                    looking_right[i]++;
+                }
+            }
+        }
+//        System.out.println(Arrays.toString(looking_right));
+        for (int i = N-1; i >= 1; i--) {
+            d_a = 1; d_b = data[i-1] - data[i];
+            looking_left[i] = 1;
+            for (int j = i-2; j >= 0; j--) {
+                int new_a = i - j;
+                int new_b = data[j] - data[i];
+                if (d_a * new_b > d_b * new_a) {
+                    d_a = new_a;
+                    d_b = new_b;
+                    looking_left[i]++;
+                }
+            }
+        }
+//        System.out.println(Arrays.toString(looking_left));
+
+        int answer = -1;
+        for (int i = 0; i < N; i++) {
+            answer = Math.max(answer, looking_left[i] + looking_right[i]);
+        }
+        System.out.println(answer);
+    }
+}

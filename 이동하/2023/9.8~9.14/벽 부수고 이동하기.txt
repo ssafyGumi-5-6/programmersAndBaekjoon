@@ -1,0 +1,66 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+class Node {
+    int r;
+    int c;
+    Node(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+public class Main {
+    static int N, M;
+    static int [] [] board, delta = {{1, 0}, {0, 1}, {-1, 0}, {0,-1}};
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        board = new int [N+1] [M+1];
+        ArrayList<Node> oneList = new ArrayList<>();
+        for (int i = 1; i <= N; i++) {
+            String s = br.readLine();
+            for (int j = 1; j <= M; j++) {
+                board[i][j] = (int)s.charAt(j-1) - 48;
+                if (board[i][j] == 1) oneList.add(new Node(i, j));
+            }
+        }
+        int [] [] cost = bfsing(1, 1);
+//        for (int [] i : cost) System.out.println(Arrays.toString(i));
+//        System.out.println();
+        int [] [] reverse_cost = bfsing(N, M);
+//        for (int [] i : reverse_cost) System.out.println(Arrays.toString(i));
+        int answer = (cost[N][M] > 0) ? cost[N][M] : Integer.MAX_VALUE;
+        for (Node i : oneList) {
+            if (cost[i.r][i.c] > 0 && reverse_cost[i.r][i.c] > 0) answer = Math.min(answer, cost[i.r][i.c] + reverse_cost[i.r][i.c] - 1);
+        }
+        if (answer == Integer.MAX_VALUE) answer = -1;
+        System.out.println(answer);
+    }
+    static int [] [] bfsing(int r, int c) {
+        int [] [] cost = new int [N+1] [M+1];
+        LinkedList<Node> q = new LinkedList<>();
+        q.add(new Node(r,c));
+        cost[r][c] = 1;
+        while (!q.isEmpty()) {
+            Node node = q.poll();
+            for (int [] d : delta) {
+                int next_r = node.r + d[0];
+                int next_c = node.c + d[1];
+                if (next_r <= 0 || next_r > N || next_c <= 0 || next_c > M) continue;
+                if (cost[next_r][next_c] > 0) continue;
+                cost[next_r][next_c] = cost[node.r][node.c] + 1;
+                if (board[next_r][next_c] == 1) continue;
+                q.add(new Node(next_r, next_c));
+            }
+        }
+
+        return cost;
+    }
+}

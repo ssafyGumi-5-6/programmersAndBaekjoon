@@ -1,0 +1,44 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        int [] data = new int [N+1];
+        for (int i = 1; i <= N; i++) {
+            data[i] = Integer.parseInt(br.readLine());
+        }
+
+        int [] check_1 = new int [N+1];
+        int [] check_2 = new int [N+1];
+        int answer_count = 0;
+        for (int i = 1; i <= N; i++) {
+            if (check_1[i] > 0) continue;
+//            System.out.println(i);
+            int node = i;
+            while (true) {
+                if (check_1[node] > 0 && check_1[node] < i) {
+                    break;
+                }
+                if (check_1[node] == i) {
+                    while (true) {
+                        if (check_2[node] == i) break;
+                        check_2[node] = i;
+                        answer_count++;
+                        node = data[node];
+                    }
+                    break;
+                }
+                check_1[node] = i;
+                node = data[node];
+            }
+        }
+        System.out.println(answer_count);
+        for (int i = 1; i <= N; i++) {
+            if (check_2[i] > 0) System.out.println(i);
+        }
+    }
+}

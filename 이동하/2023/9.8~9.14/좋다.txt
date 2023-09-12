@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] data = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < N; i++) {
+            data[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(data);
+        int left;
+        int right;
+        int answer = 0;
+        for (int i = 0; i < N; i++) {
+//            System.out.println("*" + data[i]);
+            left = 0;
+            right = N-1;
+            if (left == i) left++;
+            if (right == i) right--;
+            while (left < right) {
+//                System.out.println(data[left] + " " + data[right]);
+                int summing = data[left] + data[right];
+                if (summing < data[i]) {
+                    left++;
+                    if (left == i) left++;
+                }
+                else if (summing > data[i]) {
+                    right--;
+                    if (right == i) right--;
+                }
+                else {
+//                    System.out.println("!!!!");
+                    answer++;
+                    break;
+                }
+            }
+        }
+        System.out.println(answer);
+    }
+}
