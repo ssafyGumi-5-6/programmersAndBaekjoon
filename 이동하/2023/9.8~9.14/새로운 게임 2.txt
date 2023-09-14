@@ -1,0 +1,102 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Stone {
+    int r, c, d;
+    Stone (int r, int c, int d) {
+        this.r = r;
+        this.c = c;
+        this.d = d;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int [] [] delta = {{}, {0,1}, {0,-1}, {-1,0}, {1,0}};
+        int [] delta_reverse = {0, 2, 1, 4, 3};
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int [] [] board = new int [N+1] [N+1];
+        Stack<Stone> [] [] board_stack = new Stack [N+1] [N+1];
+        int K = Integer.parseInt(st.nextToken());
+        Stone [] stone_array = new Stone [K];
+        for (int i = 1; i <= N; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 1; j <= N; j++) {
+                board[i][j] = Integer.parseInt(st.nextToken());
+                board_stack[i][j] = new Stack<>();
+            }
+        }
+        for (int i = 0; i < K; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            Stone stone = new Stone(a, b, c);
+            stone_array[i] = stone;
+            board_stack[a][b].push(stone);
+        }
+//        for (Stack [] ss : board_stack) {
+//            if (ss == null) continue;
+//            for (Stack fs : ss) {
+//                if (fs == null) continue;
+//                System.out.print(fs.size() + " ");
+//            }
+//            System.out.println();
+//        }
+        Loop1:
+        for (int going = 1; going <= 1000; going++) {
+//            System.out.println("---" + going);
+            for (Stone s : stone_array) {
+                int next_r = s.r + delta[s.d][0];
+                int next_c = s.c + delta[s.d][1];
+                if (next_r <= 0 || next_r > N || next_c <= 0 || next_c > N || board[next_r][next_c] == 2) {
+                    s.d = delta_reverse[s.d];
+                    next_r = s.r + delta[s.d][0];
+                    next_c = s.c + delta[s.d][1];
+                    if (next_r <= 0 || next_r > N || next_c <= 0 || next_c > N || board[next_r][next_c] == 2) {
+                        continue;
+                    }
+                }
+                LinkedList<Stone> q = new LinkedList<>();
+                if (board[next_r][next_c] == 0) {
+                    while (true) {
+                        Stone temp = board_stack[s.r][s.c].pop();
+                        q.addFirst(temp);
+                        if (s == temp) break;
+                    }
+                } else if (board[next_r][next_c] == 1) {
+                    while (true) {
+                        Stone temp = board_stack[s.r][s.c].pop();
+                        q.addLast(temp);
+                        if (s == temp) break;
+                    }
+                }
+                while (!q.isEmpty()) {
+                    Stone temp = q.poll();
+                    temp.r = next_r;
+                    temp.c = next_c;
+                    board_stack[next_r][next_c].push(temp);
+                }
+                if (board_stack[next_r][next_c].size() >= 4) {
+                    System.out.println(going);
+                    return;
+                }
+//                for (Stack [] ss : board_stack) {
+//                    if (ss == null) continue;
+//                    for (Stack fs : ss) {
+//                        if (fs == null) continue;
+//                        System.out.print(fs.size() + " ");
+//                    }
+//                    System.out.println();
+//                }
+            }
+        }
+        System.out.println(-1);
+    }
+}

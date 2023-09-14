@@ -1,0 +1,54 @@
+import org.w3c.dom.Node;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        int [] [] delta = {{0,1},{-1,0},{0,-1},{1,0}};
+        boolean [] [] checking = new boolean [101] [101];
+
+        int N = Integer.parseInt(br.readLine());
+        Node[] node_array = new Node [N];
+        for (int inputing = 0; inputing < N; inputing++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int b = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            int d = Integer.parseInt(st.nextToken());
+
+            int digit = 1;
+            for (int i = 0; i < d; i++) digit *= 2;
+
+            int [] direction = new int [digit];
+            direction[0] = c;
+            for (int i = 0; i < d; i++) {
+                int h = (int) Math.pow(2, i);
+                for (int j = 0; j < h; j++) {
+                    direction[h+j] = (direction[h-j-1] + 1) % 4;
+                }
+            }
+
+//            System.out.println(Arrays.toString(direction));
+            checking[a][b] = true;
+            for (int j : direction) {
+                a += delta[j][0];
+                b += delta[j][1];
+                if (a < 0 || a > 100 || b < 0 || b > 100) continue;
+                checking[a][b] = true;
+            }
+        }
+        int answer = 0;
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
+                if (checking[i][j] && checking[i+1][j] && checking[i][j+1] && checking[i+1][j+1]) answer++;
+            }
+        }
+        System.out.println(answer);
+    }
+}
