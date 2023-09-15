@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, M, answer;
+    static HashSet<Character> know;
+    static char [] candidate = {'b','d','e','f','g','h','j','k','l','m','o','p','q','r','s','u','v','w','x','y','z'};
+    static String [] data;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        know = new HashSet<>();
+        know.add('a');
+        know.add('n');
+        know.add('t');
+        know.add('i');
+        know.add('c');
+
+        st = new StringTokenizer(br.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        data = new String [N];
+        for (int i = 0; i < N; i++) {
+            data[i] = br.readLine();
+        }
+        if (M < 5) {
+            System.out.println(0);
+            return;
+        }
+        answer = 0;
+        dfsing(5, 0);
+        System.out.println(answer);
+    }
+    static void dfsing(int collect, int level) {
+        if (collect >= M) {
+            int temp = 0;
+            Loop1:
+            for (String s : data) {
+                for (int i = 0; i < s.length(); i++) {
+                    if (!know.contains(s.charAt(i))) {
+                        continue Loop1;
+                    }
+                }
+                temp++;
+            }
+            answer = Math.max(answer, temp);
+            return;
+        }
+        if (level >= 21) {
+            return;
+        }
+        know.add(candidate[level]);
+        dfsing(collect + 1, level + 1);
+        know.remove(candidate[level]);
+        dfsing(collect, level + 1);
+    }
+}

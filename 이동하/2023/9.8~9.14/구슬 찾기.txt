@@ -1,0 +1,143 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Node {
+    int r, c;
+    Node (int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+class Pair {
+    Node red, blue;
+    int step;
+    Pair (Node red, Node blue, int step) {
+        this.red = red;
+        this.blue = blue;
+        this.step = step;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        char [] [] board = new char [N] [M];
+        Node red = null;
+        Node blue = null;
+        int [] [] delta = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+        for (int i = 0; i < N; i++) {
+            String s = br.readLine();
+            for (int j = 0; j < M; j++) {
+                char c = s.charAt(j);
+                board[i][j] = c;
+                if (c == 'R') {
+                    board[i][j] = '.';
+                    red = new Node(i, j);
+                }
+                else if (c == 'B') {
+                    board[i][j] = '.';
+                    blue = new Node(i, j);
+                }
+            }
+        }
+//        for (char [] c : board) {
+//            System.out.println(Arrays.toString(c));
+//        }
+
+        HashMap<Integer, HashSet<Integer>> check = new HashMap<>();
+        check.put(red.r * M + red.c, new HashSet<>());
+        check.get(red.r * M + red.c).add(blue.r * M + blue.c);
+
+        LinkedList<Pair> q = new LinkedList<>();
+        q.offer(new Pair(red, blue, 0));
+        while(!q.isEmpty()) {
+            Pair pair = q.poll();
+            Node red_node = pair.red;
+            Node blue_node = pair.blue;
+
+//            System.out.println("{" + red_node.r + ", " + red_node.c + "}, {" + blue_node.r + ", " + blue_node.c + "}");
+            if (pair.step >= 10) continue;
+            Loop1:
+            for (int [] d : delta) {
+//                System.out.println(Arrays.toString(d));
+                int red_point = red_node.r * d[0] + red_node.c * d[1];
+                int blue_point = blue_node.r * d[0] + blue_node.c * d[1];
+                Node saki = null;
+                Node ato = null;
+                if (red_point > blue_point) {
+//                    System.out.println("RRRR");
+                    saki = new Node(red_node.r, red_node.c);
+                    ato = new Node(blue_node.r, blue_node.c);
+                } else {
+                    saki = new Node(blue_node.r, blue_node.c);
+                    ato = new Node(red_node.r, red_node.c);
+                }
+                boolean flag = false;
+                while (true) {
+                    int next_r = saki.r + d[0];
+                    int next_c = saki.c + d[1];
+                    if (board[next_r][next_c] == '.') {
+                        saki.r = next_r;
+                        saki.c = next_c;
+                    } else if (board[next_r][next_c] == 'O' && red_point > blue_point) {
+                        flag = true;
+                        saki.r = next_r;
+                        saki.c = next_c;
+                        break;
+                    } else if (board[next_r][next_c] == 'O' && red_point <= blue_point) {
+                        continue Loop1;
+                    } else {
+                        break;
+                    }
+                }
+                while (true) {
+                    int next_r = ato.r + d[0];
+                    int next_c = ato.c + d[1];
+//                    System.out.println("###" + next_r + " " + next_c + " (" + saki.r +", " + saki.c + ")");
+                    if (!(next_r == saki.r && next_c == saki.c) && board[next_r][next_c] == '.') {
+                        ato.r = next_r;
+                        ato.c = next_c;
+                    } else if (board[next_r][next_c] == 'O' && red_point <= blue_point) {
+                        System.out.println(pair.step + 1);
+                        return;
+                    } else if (board[next_r][next_c] == 'O' && red_point > blue_point) {
+                        continue Loop1;
+                    } else {
+                        break;
+                    }
+                }
+                if (flag) {
+                    System.out.println(pair.step + 1);
+                    return;
+                }
+                Node new_red = null;
+                Node new_blue = null;
+                if (red_point > blue_point) {
+                    new_red = saki;
+                    new_blue = ato;
+                } else {
+                    new_red = ato;
+                    new_blue = saki;
+                }
+                if (check.get(new_red.r * M + new_red.c) != null
+                        && check.get(new_red.r * M + new_red.c).contains(new_blue.r * M + new_blue.c)) {
+                    continue;
+                }
+                if (check.get(new_red.r * M + new_red.c) == null) check.put(new_red.r * M + new_red.c, new HashSet<>());
+//                System.out.println("****" + "{" + new_red.r + ", " + new_red.c + "}, {" + new_blue.r + ", " + new_blue.c + "}");
+                check.get(new_red.r * M + new_red.c).add(new_blue.r * M + new_blue.c);
+                q.offer(new Pair(new_red, new_blue, pair.step + 1));
+            }
+        }
+        System.out.println(-1);
+    }
+}

@@ -1,0 +1,75 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.StringTokenizer;
+
+class Node {
+    int r, c;
+    Node (int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+public class Main {
+    static boolean flag = false;
+    static int blank_count;
+    static int [] [] board;
+    static ArrayList<Integer> blank_position;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        board = new int [9] [9];
+        blank_position = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < 9; j++) {
+                board[i][j] = Integer.parseInt(st.nextToken());
+                if (board[i][j] > 0) continue;
+                blank_position.add(i*9 + j);
+            }
+        }
+        blank_count = blank_position.size();
+        dfsing(0);
+    }
+
+    static void dfsing(int level) {
+        if (level >= blank_count) {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    System.out.print(board[i][j] + " ");
+                }
+                System.out.println();
+            }
+            flag = true;
+            return;
+        }
+        int position = blank_position.get(level);
+        int r = position / 9;
+        int c = position % 9;
+        HashSet<Integer> candidate = new HashSet<>();
+        for (int i = 1; i <= 9; i++) {
+            candidate.add(i);
+        }
+        for (int i = 0; i < 9; i++) {
+            candidate.remove(board[r][i]);
+            candidate.remove(board[i][c]);
+        }
+        int r_start = r / 3 * 3;
+        int c_start = c / 3 * 3;
+        for (int i = r_start; i < r_start+3; i++) {
+            for (int j = c_start; j < c_start+3; j++) {
+                candidate.remove(board[i][j]);
+            }
+        }
+        for (int candi : candidate) {
+            board[r][c] = candi;
+            dfsing(level + 1);
+            if (flag) return;
+            board[r][c] = 0;
+        }
+    }
+}
