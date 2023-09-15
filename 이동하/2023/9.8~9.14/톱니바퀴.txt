@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+class Query {
+    int number;
+    int direction;
+    Query(int number, int direction) {
+        this.number = number;
+        this.direction = direction;
+    }
+}
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        LinkedList<Integer> [] gear = new LinkedList [5];
+        for (int i = 1; i <= 4; i++) {
+            gear[i] = new LinkedList<>();
+            String s = br.readLine();
+            for (int j = 0; j < 8; j++) {
+                 gear[i].offer(s.charAt(j) - '0');
+            }
+        }
+
+        int K = Integer.parseInt(br.readLine());
+        for (int i = 0; i < K; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            ArrayList<Query> query_list = new ArrayList<>();
+            query_list.add(new Query(a, b));
+            for (int j = a + 1; j <= 4; j++) {
+                if (gear[j - 1].get(2) == gear[j].get(6)) break;
+                query_list.add(new Query(j, ((j - a) % 2) == 1 ? -b : b));
+            }
+            for (int j = a - 1; j >= 1; j--) {
+                if (gear[j].get(2) == gear[j + 1].get(6)) break;
+                query_list.add(new Query(j, ((a - j) % 2) == 1 ? -b : b));
+            }
+            for (Query q : query_list) {
+//                System.out.println(q.number + " " + q.direction);
+                if (q.direction == 1) gear[q.number].offerFirst(gear[q.number].pollLast());
+                else if (q.direction == -1) gear[q.number].offerLast(gear[q.number].pollFirst());
+            }
+        }
+        int answer = 0;
+        int helper = 1;
+        for (int i = 1; i <= 4; i++) {
+            if (gear[i].peek() == 1) answer += helper;
+            helper *= 2;
+        }
+        System.out.println(answer);
+    }
+}
