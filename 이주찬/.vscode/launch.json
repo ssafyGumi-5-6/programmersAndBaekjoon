@@ -6,6 +6,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main_Backjun_24337_가희와탑",
+            "request": "launch",
+            "mainClass": "y2023.s0804.Main_Backjun_24337_가희와탑",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_Backjun_22233_가희와키워드",
+            "request": "launch",
+            "mainClass": "y2023.s0804.Main_Backjun_22233_가희와키워드",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_Bj_2631_줄세우기",
+            "request": "launch",
+            "mainClass": "Main_Bj_2631_줄세우기",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
+            "name": "Main_Bj_20922_겹치는건싫어",
+            "request": "launch",
+            "mainClass": "y2023.s0615.Main_Bj_20922_겹치는건싫어",
+            "projectName": "이주찬_6891affa"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
