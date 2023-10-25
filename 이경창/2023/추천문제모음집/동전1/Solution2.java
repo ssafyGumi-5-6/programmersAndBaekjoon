@@ -27,8 +27,10 @@ public class Solution2 {
         dp[0] = 1;
 
         for(int i = 0; i < n; i++){
+            System.out.println(i + " 시작");
             for(int j = arr[i]; j <= k; j++){
                 dp[j] += dp[j - arr[i]];
+                System.out.println(j + " " + dp[j] + " " + dp[j - arr[i]]);
             }
         }
 
